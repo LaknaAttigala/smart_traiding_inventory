@@ -1,0 +1,271 @@
+<flectra>
+<data>
+<!-- Inherit quotation report (from module sale) -->
+<template id="report_purchase_quotation_report_smart_custom" inherit_id="purchase.report_purchasequotation_document">
+  <xpath expr="//div[@class='page']" position="replace">
+    <div class="page" style="font-size:14px; font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">
+        <div class="oe_structure"/> 
+          <h2 class="text-center text-uppercase mr-4" ><u><strong>Request for Quotation </strong></u></h2>
+
+          <div class="row mb32 ">
+            <div class="col-xs-6">              
+              <div>
+              <p>Vender Address</p>
+                <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;mobile&quot;,&quot;email&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: False}"/>
+                <div t-if="o.partner_id.vat">
+                  TIN No : <span t-field="o.partner_id.vat"/>
+                </div>
+                <div t-if="o.partner_id.vat2">
+                  VAT No : <span t-field="o.partner_id.vat2"/>
+                </div>
+                <div t-if="o.partner_id.svat">
+                  SVAT No : <span t-field="o.partner_id.svat"/>
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="col-xs-5 col-xs-offset-1">
+              <div>
+              <p>Delivery Address</p>
+                <div t-if="o.dest_address_id">
+                        <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+                </div>
+                <div t-if="not o.dest_address_id and o.picking_type_id.warehouse_id">
+                        <span t-field="o.picking_type_id.warehouse_id.name"/>
+                        <div t-field="o.picking_type_id.warehouse_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+                </div>
+                <div t-if="o.dest_address_id.vat">
+                  TIN No : <span t-field="o.dest_address_id.vat"/>
+                </div>
+                <div t-if="o.dest_address_id.vat2">
+                  VAT No : <span t-field="o.dest_address_id.vat2"/>
+                </div>
+                <div t-if="o.dest_address_id.svat">
+                  SVAT No : <span t-field="o.dest_address_id.svat"/>
+                </div>
+              </div>
+
+              <!-- <div class="row">
+                <div class="col-xs-4">
+                   Vat No : 
+                </div>
+                <div class="col-xs-8">
+                  <span t-field="o.company_id.vat2"/>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4">
+                   SVAT No :
+                </div>
+                <div class="col-xs-8">
+                  <span t-field="o.company_id.svat"/>
+                </div>
+              </div>
+
+              <div class="row" t-if="o.name">
+                <div class="col-xs-4">
+                   Quotation No :
+                </div>
+                <div class="col-xs-8">
+                  <span t-field="o.name"/>
+                </div>
+              </div>
+
+              <div class="row" t-if="o.date_order">
+                <div class="col-xs-4">
+                   Date Order : 
+                </div>
+                <div class="col-xs-8">
+                  <span t-field="o.date_order" />
+                </div>
+              </div>
+
+              <div class="row" t-if="o.payment_term_id.name">
+                <div class="col-xs-4">
+                   Term :
+                </div>
+                <div class="col-xs-8">
+                  <span t-field="o.payment_term_id.name"/>
+                </div>
+              </div>
+
+              <div class="row" t-if="o.date_planned">
+                <div class="col-xs-4">
+                   Expected Date :
+                </div>
+                <div class="col-xs-8">
+                   <span t-field="o.date_planned"/> 
+                </div>
+              </div>
+
+              <div class="row" >
+                <div class="col-xs-4">
+                   Tax Type :
+                </div>
+                <div class="col-xs-8">
+                  
+                </div>
+              </div> -->
+
+
+
+
+              
+
+              
+              <!-- <div t-if="o.company_id.vat2">
+                <strong>Vat No:</strong>
+                
+              </div>
+             <div t-if="o.company_id.svat">
+                <strong>SWAT No:</strong>
+                <span t-field="o.company_id.svat"/>
+              </div>
+
+              <div t-if="o.date_order">
+                <strong>Quotation No:</strong>
+                <span t-field="o.name"/>
+              </div>
+              <div t-if="o.date_order">
+                <p> <strong>Date Order: </strong>  <span t-field="o.date_order" /></p>
+              </div>
+              <div t-if="o.payment_term_id.name" >
+                <strong>Term:</strong>
+                <span t-field="o.payment_term_id.name"/>
+              </div>
+              <div t-if="o.name" >
+                <strong>Expected Date:</strong>
+                <span t-field="o.date_planned"/>
+              </div>
+
+               -->
+              
+
+              <!-- <div t-if="o.name" >
+                <strong>Our Order:</strong>
+                <span t-field="o.name"/>
+              </div>
+              <div t-if="o.date_order">
+                <strong>Order Date:</strong>
+                <span t-field="o.date_order"/>
+              </div>
+              <div t-if="o.payment_term_id.name" >
+                <strong>Term:</strong>
+                <span t-field="o.payment_term_id.name"/>
+              </div>
+              <div t-if="o.name" >
+                <strong>Schedule Date:</strong>
+                <span t-field="o.date_planned"/>
+            </div> -->
+            </div>
+            <div>
+            
+              <div class="row ">
+                <div t-if="o.name" class="col-xs-3 mt32">
+                  <strong>RFQ No:</strong> <br/>
+                  <span t-field="o.name"/>
+                </div>
+                <div t-if="o.date_order"  class="col-xs-3 mt32" >
+                  <strong>Date:</strong> <br/>
+                  <span t-field="o.date_order"/>
+                </div>
+                <div t-if="o.date_planned"  class="col-xs-3 mt32" >
+                  <strong>Sheduled Date:</strong><br/>
+                  <span t-field="o.date_planned"/>
+                </div>
+                <div t-if="o.payment_term_id.name"  class="col-xs-3 mt32" >
+                  <strong>Payment Term:</strong><br/>
+                  <span t-field="o.payment_term_id.name"/>
+                </div>
+                <div t-if="user.name"  class="col-xs-3 mt32" >
+                  <strong>Request By:</strong><br/>
+                  <span t-field="user.name"/>
+                </div>
+                <div t-if="user.phone"  class="col-xs-3 mt32" >
+                  <strong>Contact No:</strong> <br/>
+                  <span t-field="user.phone"/>
+                </div>
+                <div class="col-xs-3 mt32" >
+                  <strong>Remarks</strong><br/>
+                  <span />
+                </div>
+                
+              </div>
+            </div>
+
+          </div>
+          
+          <div>
+          <!--   <div t-if="o.date_order">
+              <p>Date Order<span t-field="o.date_order" /></p>
+            </div> -->
+            <div t-if="o.partner_id.title">
+              <p>Dear <span t-field="o.partner_id.title" />,</p>
+            </div>
+          </div>
+          <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th><strong>Product Code</strong></th>
+                        <th><strong>Description</strong></th>
+                        
+                        <th class="text-right"><strong>Qty</strong></th>
+                        <th class="text-center"><strong>Sheduled Date</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.order_line" t-as="order_line">
+                        <td>
+                          <span t-field="order_line.product_id.cus_product_id"/>
+                        </td>
+                        <td>
+                            <span t-field="order_line.name"/>
+                        </td>
+                        
+                        <td class="text-right">
+                            <span t-field="order_line.product_qty"/>
+                            <span t-field="order_line.product_uom" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="order_line.date_planned"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p t-field="o.notes"/>
+            <div class="oe_structure"/>
+            <div class="mt64 border" >
+              <p>Purchasing Department use only.</p>
+              <table class="table">
+                <thead>
+                  <th>Approved By</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  <th>Approved Date</th>
+                </thead>
+                <tbody>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tbody>
+              </table>
+              
+
+
+            </div>
+
+           
+        
+
+    </div>
+    
+  </xpath>
+
+
+</template>
+
+</data>
+</flectra>

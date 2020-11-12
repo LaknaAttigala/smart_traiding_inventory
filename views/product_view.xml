@@ -1,0 +1,68 @@
+
+  <flectra>
+  <data>
+  <record id="product_sales_price_to_minimum_price" model="ir.ui.view">
+    <field name="name">product price to minimu price</field>
+    <field name="model">product.template</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="product.product_template_form_view"/>
+    <field name="arch" type="xml">
+     
+      <xpath expr="//div[@name='options']" position="before">      
+        <div>
+          <div>
+            <label for="cus_product_id" class="oe_edit_only">Product Id</label>
+            <h3><field name="cus_product_id"/></h3>
+          </div>
+        </div>  
+      </xpath>
+      <xpath expr="//group[@name='sale']" position="inside">      
+            <group>           
+            <field name="box_quantity"/>
+            </group>                                        
+      
+      </xpath>
+      <xpath expr="//group[@name='group_lots_and_weight']" position="inside">   
+        <!-- <group>   
+          <field name="cus_length"/>  
+          <field name="cus_width"/>                                       
+        </group> -->
+        
+        <label for="cus_length">sdfsdf</label>
+        <div class="o_row" >
+          <field name="cus_length" />
+          <span>M</span>
+        </div>
+        <label for="cus_width"/>
+        <div class="o_row" >
+          <field name="cus_width"/>
+          <span>MM</span>
+        </div>
+        
+      </xpath>
+    </field>
+  </record>
+
+  <record id="product_search_form_view_new" model="ir.ui.view">
+            <field name="name">product.product.search_new</field>
+            <field name="model">product.template</field>  
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+             <!-- <xpath expr="/search/field[@name='name']" position="after">   
+                
+                    
+                    <field name="cus_product_id" string="Product ID" domain="['|','|',('product_id','ilike',self)]"/>
+            </xpath> -->
+            <xpath expr="/search/field[@name='name']" position="replace">   
+                 <field name="name" string="Product" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self),('cus_product_id','ilike',self)]]"/>
+                    
+           
+            </xpath>
+            <xpath expr="/search/field[@name='name']" position="before">   
+                 <field name="cus_product_id" string="Product ID" domain="['|','|',('product_id','ilike',self)]"/>
+           
+            </xpath>
+            </field>
+  </record>
+  </data>
+</flectra> 

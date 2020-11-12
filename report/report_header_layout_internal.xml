@@ -1,0 +1,30 @@
+<flectra>
+<data>
+<!-- Inherit quotation report (from module sale) -->
+<template id="report_purchase_header_smart_custom_internal" inherit_id="web.internal_layout">
+  <xpath expr="//div[@class='header']" position="replace">
+        <div class="header">
+            <div class="row">
+                <!-- <div class="col-xs-3">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                </div>
+                <div class="col-xs-2 col-xs-offset-2 text-center">
+                    <span t-esc="company.name"/>
+                </div>
+                <div class="col-xs-2 col-xs-offset-3 text-right">
+                    <ul class="list-inline">
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+  </xpath>
+
+
+
+</template>
+
+</data>
+</flectra>

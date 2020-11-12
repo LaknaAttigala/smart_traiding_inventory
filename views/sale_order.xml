@@ -1,0 +1,43 @@
+
+<flectra>
+  <data>
+  <record id="add_order_type_for_sales_order" model="ir.ui.view">
+    <field name="name">add.order.type.for.sales.order</field>
+    <field name="model">sale.order</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">       
+
+      <xpath expr="//field[@name='validity_date']" position="after">        
+        <field name="cus_order_type" /> 
+        <field name="carried_by" attrs="{'invisible':[('cus_order_type','!=','sample')]}" /> 
+        <field name="Vehicle_no" attrs="{'invisible':[('cus_order_type','!=','sample')]}"/>        
+
+      </xpath>
+
+       <xpath expr="//group[@name='sales_person']" position="before">
+          <group string="Terms &amp; Conditions">
+            <field name="cus_delivery_terms" />  
+            <field name="cus_minimum_order" />  
+            <field name="cus_tax_condition" />   
+          </group>
+        </xpath>
+        <xpath expr="//group[@name='technical']" position="after">
+          <group string="Others">
+            <field name="cus_quote_headings" />  
+            <field name="cus_approved" />  
+            <field name="cus_approved_date" />  
+            
+          </group>
+        </xpath>
+
+
+      <xpath expr="//page/field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
+        <field name="cus_is_return" attrs="{'invisible': [('parent.cus_order_type', '=', 'sales')]}" />
+      </xpath>
+
+     
+    </field>
+  </record>
+  </data>
+</flectra> 

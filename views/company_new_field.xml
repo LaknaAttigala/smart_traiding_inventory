@@ -1,0 +1,28 @@
+<flectra>
+  <data>
+  <record id="add_new_vat_field_to_company" model="ir.ui.view">
+    <field name="name">add_new_field_to company</field>
+    <field name="model">res.company</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="base.view_company_form"/>
+    <field name="arch" type="xml">
+    <xpath expr="//field[@name='phone']" position="after">      
+          <field name="h_phone" />
+          
+      </xpath>
+      <xpath expr="//field[@name='vat']" position="after">      
+          <field name="vat2" />
+          <field name="svat" />
+          <field name="br_number" />
+          
+      </xpath>
+      
+
+
+
+
+
+    </field>
+  </record>
+  </data>
+</flectra>

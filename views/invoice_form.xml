@@ -1,0 +1,20 @@
+<flectra>
+  <data>
+  <record id="purchase_invoice_replace_new_fields" model="ir.ui.view">
+    <field name="name">Invoice field Order cancel button Replace</field>
+    <field name="model">account.invoice</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="account.invoice_form"/>
+    <field name="arch" type="xml">      
+      <xpath expr="//field[@name='date_due']" position="after">      
+          <field name="cus_approved"  />
+          <field name="cus_approved_date" />
+            
+      </xpath>     
+
+    </field>
+  </record> 
+
+  </data>
+</flectra>
+

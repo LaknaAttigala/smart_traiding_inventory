@@ -1,0 +1,143 @@
+<flectra>
+<data>
+<!-- Inherit quotation report (from module sale) -->
+<template id="report_payslip_report_smart_traiding" inherit_id="hr_payroll.report_payslip">
+
+  <xpath expr="//t[@t-call='web.html_container']" position="replace">
+
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+             <t t-call="web.internal_layout">
+    <div class="page">
+      <div>
+        <h2 class="text-uppercase"><span  t-field="o.company_id.name" /></h2>
+        <p> <span t-field="o.company_id.partner_id.street"/> <span t-field="o.company_id.partner_id.street2"/>
+          <span t-field="o.company_id.partner_id.city"></span>
+          <span t-field="o.company_id.partner_id.state_id"></span>
+          <span t-field="o.company_id.partner_id.zip"></span>
+          <span t-field="o.company_id.partner_id.country_id"></span><br/>
+          <span t-if="o.company_id.h_phone">Tel: <span t-field="o.company_id.h_phone"/></span><br/>
+         </p>
+      </div>
+      <div>
+        <table class="table  table-bordered">
+          <thead>
+            <tr>
+              <th colspan="4" class="text-center">
+                Salary Slip
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td width="25%"><strong>Employee Name</strong></td>
+                <td width="25%"><span t-field="o.employee_id"/></td>
+                <td width="25%"><strong>Pay Period Begin Date</strong></td>
+                <td width="25%"><span t-field="o.date_from"/></td>
+
+            </tr>
+
+            <tr>
+                <td width="25%"><strong>Employee Address</strong></td>
+                <td width="25%"><div t-field="o.employee_id.address_home_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: False}"/></td>
+                <td width="25%"><strong>Pay Period End Date</strong></td>
+                <td width="25%"><span t-field="o.date_to"/></td>
+
+            </tr>  
+            <tr>
+                <td width="25%"><strong>Employee ID</strong></td>
+                <td width="25%"><span t-field="o.employee_id"/></td>
+                <td width="25%"><strong>OverTime Hours</strong></td>
+                <td width="25%"></td>
+
+            </tr>  
+
+            <tr>
+                <td width="25%"><strong>EPF No</strong></td>
+                <td width="25%"><span t-field="o.employee_id.barcode"/></td>
+                <td width="25%"><strong>Monthly Leave</strong></td>
+                <td width="25%"></td>
+
+            </tr> 
+            </tbody> 
+        </table>
+
+        <table class="table" width="100%" >
+          <tr >
+            <td width="50%">
+              <table class="table  table-bordered">
+                <thead>
+                  <tr>
+                    <th colspan="2">Earning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                      <!-- <td><span t-field="line.code"/></td> -->
+                        <td><span t-field="line.name"/></td>
+                                <!-- <td><span t-field="line.quantity"/></td>
+                                <td><span t-esc="line.amount"
+                                          t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td> -->
+                        <td><span t-esc="line.total" t-esc-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/></td>
+
+                    </tr>
+                    <!-- <tr>
+                      <td ><strong>Total Earning</strong></td>
+                      <td ><span t-field="o.date_to"/></td>
+                    </tr> -->
+                </tbody>
+              </table>  
+            
+            </td>
+
+            <td width="50%">
+              <table class="table  table-bordered">
+                <thead>
+                  <tr>
+                    <th colspan="2">Payment Information</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                      <td ><strong>Date</strong></td>
+                      <td><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/> </td>
+                   </tr>
+                   <tr>
+                      <td ><strong></strong></td>
+                      <td></td>
+                   </tr>
+                   <tr>
+                      <th colspan="2">Arears(+/-)</th>
+                   </tr>
+                   <tr>
+                      <th colspan="2"></th>
+                   </tr>
+                   <tr>
+                      <td >Arears(+/-)</td>
+                      <td></td>
+                   </tr>
+                    <tr>
+                      <td ><strong>Current NET Salary</strong></td>
+                      <td></td>
+                   </tr>
+                </tbody>
+              </table> 
+              <div class="mt-5">Employee Signature</div>
+            </td>
+          </tr>
+        
+        </table>
+      </div>
+           
+      </div> 
+       </t>
+    </t>
+  </t>
+    
+  </xpath>
+
+
+</template>
+
+</data>
+</flectra>

@@ -1,0 +1,80 @@
+<flectra>
+  <data>
+  <!-- <record id="view_stock_picking_form_from_changess" model="ir.ui.view">
+    <field name="name">view.stock.picking.form.from.sss</field>
+    <field name="model">stock.picking</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">    
+
+      <xpath expr="//field[@name='move_line_ids']/tree/field[@name='product_id']" position="after">
+        <field name="cus_package_dat" />
+      </xpath>
+      <xpath expr="//field[@name='origin']" position="replace">
+        <field name="origin" placeholder="e.g. PO0032sds"/>
+      </xpath> 
+
+          
+
+    </field>
+  </record> -->
+
+  <record id="view_stock_picking_form_from_change_smart" model="ir.ui.view">
+        <field name="name">view.stock.picking.form.from.smart</field>
+        <field name="model">stock.picking</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace"> 
+              <header>
+                  <field name="id" invisible="1"/>
+                    <field name="is_locked" invisible="1"/>
+                    <field name="show_mark_as_todo" invisible="1"/>
+                    <field name="show_check_availability" invisible="1"/>
+                    <field name="show_validate" invisible="1"/>
+                    <field name="show_lots_text" invisible="1"/>
+                    <button name="action_confirm" attrs="{'invisible': [('show_mark_as_todo', '=', False)]}" string="Mark as Todo" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="base.group_user"/>
+                    <button name="button_validate" attrs="{'invisible': [('show_validate', '=', False)]}" string="Validate" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="select_do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': [('is_locked', '=', False)]}" class="oe_highlight" />
+                    
+                    <!-- <button name="do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'partially_available')), ('is_locked', '=', False)]}"/> -->
+                    <!-- <button name="%(stock.action_report_delivery)d" string="Print" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="base.group_user"/> -->
+                    <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="base.group_user"/>
+                    <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="base.group_user" type="object"/>
+                    <field name="picking_type_code" invisible="1"/>
+                    <button name="do_unreserve" string="Unreserve" groups="base.group_user" type="object" attrs="{'invisible': ['|', '|', '|', ('picking_type_code', '=', 'incoming'), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/>
+                    <field name="show_operations" invisible="1" readonly="1"/>
+                    <field name="move_line_exist" invisible="1"/>
+                    <field name="has_packages" invisible="1"/>
+                    <button name="button_scrap" type="object" string="Scrap" attrs="{'invisible': ['|', '|', '&amp;', ('picking_type_code', '!=', 'incoming'), ('state', 'in', ('draft', 'cancel', 'waiting')), '&amp;', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done'), ('is_locked', '=', False)]}"/>
+                    <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/>
+                    <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" />
+                    <field name="picking_type_entire_packs" invisible="1"/>
+              </header>
+            </xpath>
+
+            <!-- <xpath expr="//button[@name='do_print_picking']" position="replace">
+                <button name="select_do_print_picking" string="New Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': [('is_locked', '=', False)]}"/>
+                
+                
+            </xpath> -->
+             
+            
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cus_paid" readonly="1"  invisible="0"/>
+                
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="cus_source" />
+                
+            </xpath>
+            <xpath expr="//field[@name='move_line_ids']/tree/field[@name='qty_done']" position="before">
+                <field name="cus_package_dat" />
+                
+            </xpath>
+        </field>
+    </record>
+  </data>
+</flectra> 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+<template id="report_sample_sales_order_document">
+    <t t-call="web.external_layout">
+       <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+        <div class="page" style="font-size:14px;">
+            <div class="oe_structure"/>
+            <div class="row">
+                <div class="col-xs-12" style="margin-bootom:20px;">
+                    Please allow below person to remove following undermentioned items.
+                </div>
+                <div class="col-xs-6">
+                    <div t-field="doc.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.partner_id.vat"/></p>
+                    <span t-if="doc.partner_id.vat2">VAT<span t-field="doc.partner_id.vat2"/></span><br/>
+                    <span t-if="doc.partner_id.svat">SVAT<span t-field="doc.partner_id.svat"/></span><br/>
+            
+                    <t t-if="doc.partner_shipping_id == doc.partner_invoice_id
+                             and doc.partner_invoice_id != doc.partner_id
+                             or doc.partner_shipping_id != doc.partner_invoice_id">
+                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and shipping address:</strong>
+                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing address:</strong>
+                        <div t-field="doc.partner_invoice_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        <div t-if="doc.partner_shipping_id != doc.partner_invoice_id" class="mt8">
+                            <strong>Shipping address:</strong>
+                            <div t-field="doc.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                    </t>
+                    
+                </div>
+                <div class="col-xs-5 col-xs-offset-1">
+                    <h1 class="text-uppercase">Gate Pass</h1>
+                    <div t-if="doc.name">
+                      <strong>Gate Pass Number:</strong>
+                      <span t-field="doc.name"/>
+                    </div>                  
+
+                    <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']">
+                        <strong>Date:</strong>
+                        <span t-field="doc.confirmation_date"/>
+                    </div>
+                    <div t-if="doc.date_order and doc.state in ['draft','sent']">
+                        <strong>Date:</strong>
+                        <span t-field="doc.date_order"/>
+                    </div>
+
+                    <div name="branch" t-if="doc.branch_id" class="col-xs-3" groups="base_branch_company.group_multi_branch">
+                        <strong>Branch:</strong>
+                        <span t-field="doc.branch_id"/>
+                    </div>
+                    <div t-if="doc.origin" >
+                        <strong>Order Reference:</strong>
+                        <span t-field="doc.origin"/>
+                    </div>
+                     <div t-if="doc.carried_by">
+                        <strong>Carried By:</strong>
+                        <span t-field="doc.carried_by"/>
+                    </div>
+                    <div t-if="doc.Vehicle_no">
+                        <strong>Vehicle No:</strong>
+                        <span t-field="doc.Vehicle_no"/>
+                    </div>
+                </div>  
+            </div>    
+          
+
+            <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
+
+            <t t-foreach="doc.order_lines_layouted()" t-as="page">
+                <div class="border border-dark h-100">
+                
+                
+                <table class="table table-condensed" style="margin-top:20px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Item Code</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Returnable</th>
+                            
+                        </tr>
+                   </thead>
+                   <tbody class="sale_tbody">
+                        <t t-foreach="page" t-as="layout_category">
+
+                            <t t-if="layout_category_size > 1 or page_size > 1" groups="sale.group_sale_layout">
+                                <tr class="active">
+                                    <td colspan="7" style="font-weight: bold; border-bottom: 1px solid black;">&amp;bull;
+                                        <t t-esc="layout_category['name']"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <!-- Lines associated -->
+                            <t t-foreach="layout_category['lines']" t-as="l">
+                                <tr>
+                                    <td><span t-field="l.product_id.cus_product_id"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-right">
+                                        <span t-field="l.product_uom_qty"/>
+                                        <span t-field="l.product_uom" groups="product.group_uom"/>
+                                    </td>
+                                    <td class="text-center">
+                                      <span t-if="l.cus_is_return">Yes</span>
+                                       <span t-if="not l.cus_is_return">No</span>
+
+                                    </td>
+                                   
+                                </tr>
+                            </t>                        
+
+                        </t>
+                    </tbody>
+                </table>
+                </div>
+            </t>
+
+            <div class="col-xs-12 border border-dark" style="position:absolute; bottom:-600px;">
+              
+                <p>Certify that the above items have been issued correctly.</p>
+
+                <table width="100%" class="text-center">
+                    <tbody>
+                  <tr>
+                    <td  style=" padding-top:20px;"><span t-field="user.name" /></td>
+                    <td  style="padding-top:20px;"><span t-field="doc.cus_approved" /></td>
+                    <td  style="padding-top:20px;">.............................</td>
+                    <td  style="padding-top:20px;">.............................</td>
+                    <td  style=" padding-top:20px;">.............................</td>                  
+                  </tr>
+                  <tr>
+                    <td>Authorised By</td>
+                    <td>Approved By</td>
+                    <td>Issued By</td>
+                    <td>Carried By</td>
+                    <td>Signature of Receiver</td>                  
+                  </tr>
+                  </tbody>
+                </table>
+           </div>
+
+            <p t-field="doc.note"/>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+<template id="report_sampleorder">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="smart_traiding_inventory.report_sample_sales_order_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+</flectra>

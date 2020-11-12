@@ -1,0 +1,108 @@
+<flectra>
+  <data>
+  <record id="purchase order_cancel_button_replace" model="ir.ui.view">
+    <field name="name">Purchase Order cancel button Replace</field>
+    <field name="model">purchase.order</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//button[@name='button_cancel']" position="replace">      
+          <button 
+          string="Cancel"   
+          name="cus_cancel_button"  
+          states="draft,to approve,request purchase,request purchase,sent,purchase" 
+          type="object" 
+               
+          />          
+      </xpath>
+      <xpath expr="//header" position="inside">
+                <button name="button_create_rfq" string="Create RFQ" states="accept purchase" class="oe_highlight" type="object"/>
+               
+                <button name="button_or_approve" string="Approve" states="request purchase" class="oe_highlight" type="object"/>
+               
+      </xpath>
+       <!-- <xpath expr="//button[@id='draft_confirm']" position="replace">
+           <button name="button_creat_pr" string="Create PR" states="sent" class="oe_highlight" type="object"/> 
+      </xpath> -->
+
+      
+     
+       <xpath expr="//button[@name='button_confirm']" position="replace">
+          <button name="cus_button_order_confirm" type="object" states="accept purchase" class="oe_highlight" string="Confirm Order" id="draft_confirm"/>
+      </xpath>
+  
+      <xpath expr="//field[@name='date_order']" position="after">      
+          <field name="cancel_order_reason" attrs="{'invisible': [('state', 'not in', ['cancel' ])]}" />
+            
+      </xpath>
+      <xpath expr="//field[@name='company_id']" position="after">      
+          <field name="cus_delivery_to" attrs="{'invisible': [('state', 'not in', ['request purchase','accept purchase' ])]}" />
+            
+      </xpath>
+
+      
+      <xpath expr="//field[@name='origin']" position="after">      
+          <field name="cus_others"  />
+          <field name="cus_approved" invisible="1" />
+          <field name="cus_approved_date" invisible="1" />
+           
+            
+      </xpath>
+     
+      <xpath expr="//div[@class='oe_title']" position="replace">
+        <div class="oe_title">
+          <label string="Request for Quotation " attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>
+          <label string="Purchase Request" attrs="{'invisible': [('state','not in',('request purchase','accept purchase'))]}"/>
+          <label string="Purchase Order " attrs="{'invisible': [('state','in',('request purchase','accept purchase','draft','sent'))]}"/>
+              <h1>
+                <field name="name" readonly="1"/>
+              </h1>
+        </div>
+      </xpath>
+        <xpath expr="//field[@name='state']" position="replace">              
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,request purchase,accept purchase,purchase"/> 
+      </xpath>
+      <!-- 
+-->
+
+    </field>
+  </record> 
+
+  <record id="purchase_equest_view" model="ir.actions.act_window">
+            <field name="name">Purchase Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="context">{'search_default_todo':1, 'show_purchase': False}</field>
+            <field name="domain">[('state','in',('request purchase','accept purchase','cancel'))]</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a request for quotation.
+              </p><p>
+                The quotation contains the history of the discussion/negotiation
+                you had with your vendor. Once confirmed, a request for
+                quotation is converted into a purchase order.
+              </p><p>
+                Most propositions of purchase orders are created automatically
+                by Flectra based on inventory needs.
+              </p>
+            </field>
+        </record>
+        <menuitem action="purchase_equest_view" id="menu_purchase_rfq" string="Purchase Request"
+            parent="purchase.menu_procurement_management"
+            sequence="0"/> 
+
+        <menuitem action="purchase.purchase_rfq" id="purchase.menu_purchase_rfq"
+            parent="purchase.menu_procurement_management"
+            sequence="1"/>
+
+
+
+  </data>
+</flectra>
+
+<!-- 
+      name="%(smart_traiding_inventory.purchase_order_cancel_reason_action)d" 
+
+  -->

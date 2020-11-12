@@ -1,0 +1,42 @@
+
+<flectra>
+  <data>
+  <record id="view_vender_bill_purchase_from_change" model="ir.ui.view">
+    <field name="name">view.vender.bill.purchase.from.change</field>
+    <field name="model">account.invoice</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="account.invoice_supplier_form"/>
+    <field name="arch" type="xml"> 
+      <xpath expr="//field[@name='purchase_id']" position="after">    
+      <!-- many2many_checkboxes -->
+          <field name="stock_picking_ids" attrs="{'readonly': [('state','not in',['draft'])], 'invisible': ['|', ('state', '=', 'purchase'), ('type', '=', 'in_refund')]}" options="{'no_create': True}" widget='many2many_tags' />   
+          <field name="cusdec_no" />                                              
+      </xpath>  
+      <xpath expr="//field[@name='date_due']" position="after">               
+          <field name="cus_source" attrs="{ 'invisible': ['|', ('state', '=', 'purchase')]}"  />   
+      </xpath>    
+      
+      <xpath expr="//field[@name='origin']" position="attributes">      
+           <attribute name="string">Purchase Orders</attribute>                                       
+      </xpath>
+      <xpath expr="//field[@name='reference']" position="attributes">      
+           <attribute name="string">Invoice Number</attribute>                                       
+      </xpath>
+
+      <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
+        <!-- <field name="purchase_line_id" invisible="0" readonly="0"/> -->
+        <field name="purchase_id" invisible="1" readonly="0"/>
+        <field name="grn_id" invisible="0" readonly="0"/>
+
+      </xpath>
+      
+      
+
+
+    </field>
+  </record>
+
+  
+
+  </data>
+</flectra> 

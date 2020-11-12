@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+    <data>
+
+        <record id="paperformat_new_smart_aod" model="report.paperformat">
+            <field name="name">paperformat A5 Portrait New</field>
+            <field name="default" eval="True"/>
+            <field name="format">A5</field>
+            <!-- <field name="page_height">0</field>
+            <field name="page_width">0</field> -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">100</field>
+        </record>
+         <record id="paperformat_new_smart_grn" model="report.paperformat">
+            <field name="name">paperformat A5 Landscape New</field>
+            <field name="default" eval="True"/>
+            <field name="format">A5</field>
+            <!-- <field name="page_height">0</field>
+            <field name="page_width">0</field> -->
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">100</field>
+        </record>
+
+        <record id="paperformat_new_smart_a4_format" model="report.paperformat">
+            <field name="name">paperformat A4 Portrait Smart New</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <!-- <field name="page_height">0</field>
+            <field name="page_width">0</field> -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">100</field>
+        </record>
+
+        <report 
+            string="Purchase Request" 
+            id="action_report_purchase_request" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.report_purchasrequest" 
+            file="smart_traiding_inventory.report_purchasrequest"
+            print_report_name="'purchase request - %s' % (object.name)"
+            paperformat="smart_traiding_inventory.paperformat_new_smart_a4_format"
+            
+        />
+
+        <report 
+            string="Print GRN" 
+            id="menu_action_report_grn_doc" 
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.action_report_grn_doc" 
+            file="smart_traiding_inventory.action_report_grn_doc"
+            print_report_name="'Good Recived Note - %s' % (object.name)"
+            menu="False"
+            paperformat="smart_traiding_inventory.paperformat_new_smart_grn"
+            
+        />
+
+        <report 
+            string="Print AOD" 
+            id="menu_action_report_aod_doc" 
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.action_report_aod_doc" 
+            file="smart_traiding_inventory.action_report_aod_doc"
+            print_report_name="'Advice for dispatch - %s' % (object.name)"
+            menu="False"
+            paperformat="paperformat_new_smart_aod"
+            
+        />
+
+        <report 
+            string="Print Purchase Return" 
+            id="menu_action_report_purchase_return" 
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.action_report_purchase_return" 
+            file="smart_traiding_inventory.action_report_purchase_return"
+            print_report_name="'Advice for dispatch - %s' % (object.name)"
+            menu="False"
+            paperformat="paperformat_new_smart_aod"
+        />
+
+        <report 
+            string="Print Sample Return" 
+            id="menu_action_report_sampleorder" 
+            model="sale.order" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.report_sampleorder" 
+            file="smart_traiding_inventory.report_sampleorder"
+            print_report_name="'Advice for dispatch - %s' % (object.name)"
+            menu="False"
+            paperformat="paperformat_new_smart_grn"
+        />
+        <!-- <report
+            string="Delivery Slip"
+            id="action_report_delivery"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="stock.report_deliveryslip"
+            file="stock.report_deliveryslip"
+            print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+            menu="False"
+        /> -->
+
+         <!-- print_report_name="
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))" -->
+        
+   
+       
+    </data>
+</flectra>

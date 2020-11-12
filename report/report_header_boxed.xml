@@ -1,0 +1,85 @@
+<flectra>
+<data>
+<!-- Inherit quotation report (from module sale) -->
+<template id="report_purchase_header_smart_custom" inherit_id="web.external_layout_boxed">
+    <xpath expr="//div[@class='header o_boxed_header']" position="replace">
+        <div class="header " style="font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">
+            <div class="row mb8">
+                <div class="col-xs-2 text-right">
+                    <img t-if="company.logo" width="100" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"/>
+                    
+                </div>
+                <div class="col-xs-10 text-left mb4">
+                    <h1 class="mt0" t-field="company.report_header" />
+                    <u><h1 style="font-size:40px; color: #4169e1; " t-field="company.name" /> </u>
+                    <div>
+                      <p style="font-size:13px">
+                      <span t-field="company.partner_id.street"></span> <span t-field="company.partner_id.street2"></span>
+                      <span t-field="company.partner_id.city"></span>
+                      <span t-field="company.partner_id.state_id"></span>
+                      <span t-field="company.partner_id.zip"></span>
+                      <span t-field="company.partner_id.country_id"></span><br/>
+                      <span t-if="company.h_phone">Tel: <span t-field="company.h_phone"/></span><br/>
+                      <span t-if="company.email">Email: <span t-field="company.email"/></span> | <span t-if="company.website">Website: <span t-field="company.website"/></span><br/>
+                     <span t-if="company.vat2"> VAT: <span t-field="company.vat2" /></span><span t-if="company.svat">| SVAT:<span t-field="company.svat"></span> </span> <br/>
+
+                    </p>
+                    </div>
+                 <!--    <div >
+                          
+                    </div>
+                    <div t-if="company.email">
+                          Email: <span t-field="company.email"/>
+                    </div>
+                    <div t-if="company.website">
+                          Web: <span t-field="company.website"/>
+                    </div> -->
+                    <!-- <div t-if="company_address" class="mb4">
+                        <div>
+                          <span  t-field="company.partner_id" ></span>
+                        </div>
+                        <span class="company_address" t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot; &quot;email&quot; &quot;phone&quot;], &quot;no_marker&quot;: true}"/>
+                        <div t-if="company.phone">
+                          Tel: <span t-field="company.phone"/>
+                        </div>
+                        <div t-if="company.email">
+                          Email: <span t-field="company.email"/>
+                        </div>
+                        <div t-if="company.website">
+                          Email: <span t-field="company.website"/>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+  </xpath>
+
+
+        <!-- <div class="article o_report_layout_boxed">
+          <t t-raw="0"/>
+        </div>-->
+  <xpath expr="//div[@class='footer o_boxed_footer']" position="replace">
+        <div class="footer o_boxed_footer" style="font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">
+            <div class="text-center">
+                <!-- <ul class="list-inline">
+                    <li t-if="company.phone">Tel: <span t-field="company.phone"/></li>
+                    <li t-if="company.email">Mail: <span t-field="company.email"/></li>
+                    <li t-if="company.website">Web: <span t-field="company.website"/></li>
+                    <li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'TIN'"/>: <span t-field="company.vat"/></li>
+                </ul> -->
+                <div>
+                  <p class="text-center">***This is computer generated document &amp; No Signature Required*** </p>
+                </div>
+                <div t-field="company.report_footer"/>
+                <div>
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div> 
+  
+    </xpath>
+
+</template>
+
+</data>
+</flectra>

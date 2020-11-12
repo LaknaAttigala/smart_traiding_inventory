@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<flectra>
+        <record id="purchase_order_cancel_reason_view_form" model="ir.ui.view">
+            <field name="name">purchase order.cancel.reason.form</field>
+            <field name="model">smart_traiding_inventory.purchaseordercancelreson</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Reason">
+                    <group class="oe_title">
+                        <field name="name"/>                        
+                    </group>
+                    <footer>
+                        <button name="purchase_order_cancel_reason_apply" string="Submit" type="object" class="btn btn-sm btn-primary"/>
+                        <button string="Cancel" class="btn btn-sm btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+ 
+        <record id="purchase_order_cancel_reason_action" model="ir.actions.act_window">
+            <field name="name">Cancel Reason</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">smart_traiding_inventory.purchaseordercancelreson</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="purchase_order_cancel_reason_view_form"/>
+            <field name="target">new</field>
+        </record>
+</flectra>
