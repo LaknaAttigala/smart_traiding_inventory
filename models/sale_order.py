@@ -21,27 +21,6 @@ class SaleOrder(models.Model):
 
 
 
-    # @api.multi
-    # def _action_confirm(self):
-    #     for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
-    #         order.message_subscribe([order.partner_id.id])
-    #     now_date = datetime.now()
-    #     self.write({
-    #         'state': 'sale',
-    #         'confirmation_date': fields.Datetime.now(),
-    #         'cus_approved':self.env.user.id,
-    #         'cus_approved_date':now_date 
-    #     })
-    #     if self.env.context.get('send_email'):
-    #         self.force_quotation_send()
-
-    #     # create an analytic account if at least an expense product
-    #     for order in self:
-    #         if any([expense_policy not in [False, 'no'] for expense_policy in order.order_line.mapped('product_id.expense_policy')]):
-    #             if not order.analytic_account_id:
-    #                 order._create_analytic_account()
-
-    #     return True
 
 
     # Raise the warning "Minimum order quantity of the product <Name> is <Quantity Value>."
@@ -66,39 +45,15 @@ class SaleOrder(models.Model):
             return self.env.ref('sale.action_report_saleorder').report_action(self)
 
     
-    # @api.multi
-    # def _action_confirm(self):
-    #     for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
-    #         order.message_subscribe([order.partner_id.id])
-    #     self.write({
-    #         'state': 'sale',
-    #         'confirmation_date': fields.Datetime.now()
-    #     })
-    #     if self.env.context.get('send_email'):
-    #         self.force_quotation_send()
+    @api.multi
+    def action_confirm(self):
+        res = super(SaleOrder,self).action_confirm()
+        if res:
+            now_date = datetime.now()
+            self.cus_approved= self.env.user.id
+            self.cus_approved_date= now_date
 
-    #     # create an analytic account if at least an expense product
-    #     for order in self:
-    #         if any([expense_policy not in [False, 'no'] for expense_policy in order.order_line.mapped('product_id.expense_policy')]):
-    #             if not order.analytic_account_id:
-    #                 order._create_analytic_account()
-
-    #     return True
-
-
-    @api.onchange('state')
-    def get_approved_user(self):   
-          
-        now_date = datetime.now()
-        self.cus_approved= self.env.user.id
-        self.cus_approved_date= now_date
-        print("hdssssssskkkkkhassssssssssssssss777777777777777777 ", self.state, self.cus_approved, self.cus_approved_date)
-        
-      
-        # self.write({
-        #     'cus_approved':self.env.user.id,
-        #     'cus_approved_date':now_date 
-        # })
+        return True
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'

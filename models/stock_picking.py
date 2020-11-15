@@ -16,11 +16,23 @@ class CustomerPurchaseFields(models.Model):
   origin = fields.Char( string="PO Number")
   cus_source= fields.Char("Source Document")
 
+  cus_product_list=fields.Char("Products List" , compute="_generate_product_list")
+
   
+
+  @api.multi
+  @api.depends("move_lines")
+  def _generate_product_list(self):
+    for rec in self:
+      products =""
+      for line in rec.move_lines:   
+        if line.product_id.cus_product_id:   
+          products = products + "\r\n" + line.product_id.cus_product_id
+      rec.cus_product_list = products
   # cus_package_qty = fields.Integer('Pack Qty', store=True)
   
 
-  def select_do_print_picking(self):
+  def do_print_picking(self):
     pick_return = self.origin
     pick_type = self.picking_type_code
     if pick_type=="incoming":
@@ -31,9 +43,7 @@ class CustomerPurchaseFields(models.Model):
         self.write({'printed': True})
         return self.env.ref('smart_traiding_inventory.menu_action_report_grn_doc').report_action(self)
     elif pick_type =="outgoing":
-      if pick_return[:6] =="Return":
-        print("jakbsdjashjddsffffffffffffffffff outg",pick_return[:6])
-      else:
+      if pick_return[:6] !="Return":
         self.write({'printed': True})
         return self.env.ref('smart_traiding_inventory.menu_action_report_aod_doc').report_action(self)
     else:
@@ -51,13 +61,6 @@ class CustomerStockmoveFields(models.Model):
   
   cus_package_dat = fields.Char('Pack Qty',  store=True)
 
-
-
-  # @api.onchange('quantity_done')
-  # def _calculate_package_quantity(self):
-  #   if self.quantity_done != '0':
-  #     product_box = self.env['product.template'].search([('product_id','=',self.product_id.id)])
-  #     print('ghasdfasdascdgascdfa',product_box)
 
 
 

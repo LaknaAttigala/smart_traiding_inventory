@@ -45,7 +45,7 @@
         'report/purchase_report.xml',
         'report/purchase_quotation_new_report.xml',
         'report/sales_quotation_order_report.xml',
-        'report/sale_picking_aod_details.xml',
+        # 'report/sale_picking_aod_details.xml',
         'report/sale_picking_aod_doc.xml',
         'report/invoices_bill_report.xml',
 

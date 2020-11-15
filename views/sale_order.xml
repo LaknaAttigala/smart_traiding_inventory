@@ -25,8 +25,8 @@
         <xpath expr="//group[@name='technical']" position="after">
           <group string="Others">
             <field name="cus_quote_headings" />  
-            <field name="cus_approved" />  
-            <field name="cus_approved_date" />  
+            <field name="cus_approved" readonly="1" />  
+            <field name="cus_approved_date"  readonly="1" />  
             
           </group>
         </xpath>
