@@ -4,21 +4,19 @@
 <template id="report_sale_order_report_smart_custom" inherit_id="sale.report_saleorder_document">
   <xpath expr="//div[@class='page']" position="replace">
      
-        <div class="page custom_smart" style="font-size:15px; font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">
+  <div class="page custom_smart" style="font-size:15px; font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">
             <div class="oe_structure"/>
             <div t-if="doc.state in ['draft','sent']">
                 <div class="row">
                     <div class="col-xs-6">
-                        <div t-if="doc.name" >
-                            <p> <span >Quotation No:</span> <span t-field="doc.name"/></p>    
-                        </div>
                         <div t-if="doc.date_order and doc.state in ['draft','sent']">
                             <span t-esc="datetime.datetime.strptime(doc.date_order, '%Y-%m-%d %H:%M:%S').strftime('%d %B %Y')"/>
+                            
                         </div>  
                         <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                         <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.partner_id.vat"/></p>
                     </div>
-                    <div class="col-xs-5 col-xs-offset-1" style="margin-top:40px">
+                    <div class="col-xs-5 col-xs-offset-1">
                         <div>
                         <p>Kind Attention: <span t-field="doc.partner_invoice_id.name"/></p>
 
@@ -39,10 +37,13 @@
                 </h2>
                 <p t-if="doc.cus_quote_headings" ><span t-field="doc.cus_quote_headings" /></p>
                 
-                <div class="row" id="informations">
+                <div class="row mt32 mb32" id="informations">
 
-                    
-                    <!-- <div t-if="doc.client_order_ref" class="col-xs-3">
+                    <div t-if="doc.name" class="col-xs-3 ">
+                        <strong> <span >Quotation No:</span></strong>                        
+                        <p t-field="doc.name"/>
+                    </div>
+                    <div t-if="doc.client_order_ref" class="col-xs-3">
                         <strong>Your Reference:</strong>
                         <p t-field="doc.client_order_ref"/>
                     </div>
@@ -55,20 +56,20 @@
                             <strong>Salesperson:</strong>
                             <p t-field="doc.user_id"/>
                         </div>
-                    </t> -->
+                    </t>
                     <!-- <div name="payment_term" t-if="doc.payment_term_id" class="col-xs-3">
                         <strong>Payment Terms:</strong>
                         <p t-field="doc.payment_term_id"/>
                     </div> -->
-                    <!-- <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
+                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
                         <strong>Expiration Date:</strong>
                         <p t-field="doc.validity_date"/>
-                    </div> -->
-<!-- 
+                    </div>
+
                     <div name="branch" t-if="doc.branch_id" class="col-xs-3" groups="base_branch_company.group_multi_branch">
                         <strong>Branch:</strong>
                         <p t-field="doc.branch_id"/>
-                    </div> -->
+                    </div>
                 </div>
 
 
@@ -80,8 +81,8 @@
                             <tr>
                                 <th>Item Code</th>
                                 <th>Description</th>
-                                <th>Length</th>
-                                <th>Width</th>
+                                <th>Length(m)</th>
+                                <th>Width(mm)</th>
                                 <th class="text-right">Unit Price</th>
                                 <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">Disc.(%)</th>
                                 <th class="text-right" t-if="doc.state not in ['draft','sent']">Taxes</th>
@@ -150,7 +151,6 @@
                         <li t-if="doc.payment_term_id" >Payment Terms: <span t-field="doc.payment_term_id" /> </li>
                         <li t-if="doc.cus_tax_condition" > <span t-field="doc.cus_tax_condition" /> </li>
                         <li t-if="doc.cus_minimum_order" > <span t-field="doc.cus_minimum_order" /> </li>
-                        <li t-if="doc.validity_date">Expiration Date: <span t-field="doc.validity_date"/></li>
                         <li >We trust that our quotation is in line with your requirement &amp; if you require any further information or clarification please contact the undersigned.</li>
                     </ul>
                     <strong>Assuraing you of our best attention at all times. </strong> 
@@ -172,6 +172,7 @@
             
             
             </div>
+
 
             <!--end of quotation-->
 
