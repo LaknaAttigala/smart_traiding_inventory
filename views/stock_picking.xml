@@ -66,8 +66,9 @@
                 <field name="cus_source" />
                 
             </xpath>
-            <xpath expr="//field[@name='move_line_ids']/tree/field[@name='qty_done']" position="before">
-                <field name="cus_package_dat" />
+       
+            <xpath expr="//field[@name='move_lines']/tree/field[@name='quantity_done']" position="before">
+                <field name="cus_package_count" />
                 
             </xpath>
         </field>

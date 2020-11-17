@@ -56,10 +56,29 @@ class CustomerPurchaseFields(models.Model):
 
   
 
-class CustomerStockmoveFields(models.Model):
-  _inherit = "stock.move.line"
+# class CustomerStockmoveFields(models.Model):
+#   _inherit = "stock.move.line"
   
-  cus_package_dat = fields.Char('Pack Qty',  store=True)
+#   cus_package_dat = fields.Char('Pack Qty',  store=True)
+
+
+class StockMove(models.Model):
+  _inherit = "stock.move"
+  
+  cus_package_count = fields.Integer('Pack Qty',  store=True, )
+
+  @api.onchange('quantity_done')
+  def _generate_Package_count(self):
+    if self.quantity_done != 0 and self.quantity_done !=0.00:
+      pack_count = self.quantity_done / self.product_id.box_quantity
+      pack_count = round(pack_count)
+      self.cus_package_count=pack_count
+    # for pack in self:
+    #   if pack.product_id.box_quantity != 0.00 and pack.quantity_done !=0.00 :
+    #     pack_count = pack.quantity_done / pack.product_id.box_quantity
+    #     pack_count = int(pack_count)
+    #     pack.cus_package_count=pack_count
+  
 
 
 
