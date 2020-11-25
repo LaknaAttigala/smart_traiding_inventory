@@ -21,12 +21,7 @@
                 <button name="button_or_approve" string="Approve" states="request purchase" class="oe_highlight" type="object"/>
                
       </xpath>
-       <!-- <xpath expr="//button[@id='draft_confirm']" position="replace">
-           <button name="button_creat_pr" string="Create PR" states="sent" class="oe_highlight" type="object"/> 
-      </xpath> -->
 
-      
-     
        <xpath expr="//button[@name='button_confirm']" position="replace">
           <button name="cus_button_order_confirm" type="object" states="accept purchase" class="oe_highlight" string="Confirm Order" id="draft_confirm"/>
       </xpath>

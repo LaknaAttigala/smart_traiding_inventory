@@ -19,7 +19,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','purchase','stock','sale_stock','sale'],
+    'depends': ['base','account','purchase','stock','sale_stock','sale','report_xlsx'],
 
     # always loaded
     'data': [
@@ -33,7 +33,9 @@
         'views/company_new_field.xml',
         'views/vender_bill.xml',
         'views/product_view.xml',
-        
+        'views/views.xml',
+        'views/templates.xml',
+
         'report/report_header_layout_internal.xml',
         'report/sample_sales_order_report.xml',
         'report/purchase_request_report.xml',

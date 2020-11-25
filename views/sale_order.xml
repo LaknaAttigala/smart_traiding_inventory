@@ -39,5 +39,66 @@
      
     </field>
   </record>
+
+    <record id="sale.action_orders" model="ir.actions.act_window">    
+      <field name="domain">[('state', 'not in', ('draft','sent'))]</field>    
+    </record> 
+
+    <record id="sale.action_quotations" model="ir.actions.act_window">    
+        <field name="domain">[('state', 'in', ('draft','sent')),('cus_order_type', '=','sales')]</field>    
+    </record> 
+
+    <record id="smart_order_tree_order_change_custom" model="ir.ui.view">
+      <field name="name">order.tree.view.change.custom</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_tree"/>
+      <field name="arch" type="xml">
+       
+        <xpath expr="//field[@name='state']" position="replace">     
+         <field name="state" />
+        </xpath>      
+
+
+      </field>
+    </record> 
+
+    <record id="view_sales_order_filter_smart" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <field name="name" string="Sales Order" filter_domain="['|','|',('name','ilike',self),('client_order_ref','ilike',self),('partner_id','child_of',self)]"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id"/>
+                    <field name="team_id" string="Sales Channel"/>
+                    <field name="analytic_account_id"/>
+                    <field name="product_id"/>
+                    <filter string="My Orders" domain="[('user_id','=',uid)]" name="my_sale_orders_filter"/>
+                    <separator/>
+                    <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <separator/>
+                    <filter string="My Activities" name="activities_my"
+                        domain="[('activity_ids.user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Late Activities" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter string="Today Activities" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter name="customer" string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Order Month" domain="[]" context="{'group_by':'date_order'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+    
+
+     
   </data>
 </flectra> 

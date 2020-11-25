@@ -5,16 +5,18 @@
        <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
         <div class="page" style="font-size:14px;">
             <div class="oe_structure"/>
-            <div class="row">
-                <div class="col-xs-12" style="margin-bootom:20px;">
-                    Please allow below person to remove following undermentioned items.
+            <div class="row" >
+
+                <div class="col-xs-12" style="margin-bootom:20px; margin-top:70px">
+                    <h4 class="text-uppercase text-center"><u><strong>Gate Pass</strong></u></h4>
+                    <strong>Please allow below person to remove following undermentioned items.</strong>
                 </div>
                 <div class="col-xs-6">
                     <div t-field="doc.partner_id"
                         t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-                    <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.partner_id.vat"/></p>
-                    <span t-if="doc.partner_id.vat2">VAT<span t-field="doc.partner_id.vat2"/></span><br/>
-                    <span t-if="doc.partner_id.svat">SVAT<span t-field="doc.partner_id.svat"/></span><br/>
+                    <p><span t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.partner_id.vat"/></span> <span t-if="doc.partner_id.vat2"> VAT: <span t-field="doc.partner_id.vat2"/></span>
+                    <span t-if="doc.partner_id.svat"> SVAT: <span t-field="doc.partner_id.svat"/></span></p>
+                    
             
                     <t t-if="doc.partner_shipping_id == doc.partner_invoice_id
                              and doc.partner_invoice_id != doc.partner_id
@@ -32,9 +34,9 @@
                     
                 </div>
                 <div class="col-xs-5 col-xs-offset-1">
-                    <h1 class="text-uppercase">Gate Pass</h1>
+                    
                     <div t-if="doc.name">
-                      <strong>Gate Pass Number:</strong>
+                      <strong>Gate Pass Numbesr:</strong>
                       <span t-field="doc.name"/>
                     </div>                  
 

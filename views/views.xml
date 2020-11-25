@@ -1,60 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
 <flectra>
-  <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="smart_traiding_inventory.list">
-      <field name="name">smart_traiding_inventory list</field>
-      <field name="model">smart_traiding_inventory.smart_traiding_inventory</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
-    -->
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="smart_traiding_inventory.action_window">
-      <field name="name">smart_traiding_inventory window</field>
-      <field name="res_model">smart_traiding_inventory.smart_traiding_inventory</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-    -->
 
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="smart_traiding_inventory.action_server">
-      <field name="name">smart_traiding_inventory server</field>
-      <field name="model_id" ref="model_smart_traiding_inventory_smart_traiding_inventory"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record>
-    -->
+      <record id="view_sample_order_tree" model="ir.ui.view">
+            <field name="name">sale.sample.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Orders" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Order Number"/>
+                    <field name="confirmation_date" string="Confirmation Date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="cus_order_type" invisible="0"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
 
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="smart_traiding_inventory" id="smart_traiding_inventory.menu_root"/>
-    -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="smart_traiding_inventory.menu_1" parent="smart_traiding_inventory.menu_root"/>
-    <menuitem name="Menu 2" id="smart_traiding_inventory.menu_2" parent="smart_traiding_inventory.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="smart_traiding_inventory.menu_1_list" parent="smart_traiding_inventory.menu_1"
-              action="smart_traiding_inventory.action_window"/>
-    <menuitem name="Server to list" id="smart_traiding_inventory" parent="smart_traiding_inventory.menu_2"
-              action="smart_traiding_inventory.action_server"/>
-    -->
-  </data>
+        <record id="view_sample_order_filter" model="ir.ui.view">
+            <field name="name">sale.sample.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <field name="name" string="Sales Order" filter_domain="['|','|',('name','ilike',self),('client_order_ref','ilike',self),('partner_id','child_of',self)]"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id"/>
+                    <field name="team_id" string="Sales Channel"/>
+                    <field name="analytic_account_id"/>
+                    <field name="product_id"/>
+                    <filter string="My Orders" domain="[('user_id','=',uid)]" name="my_sale_orders_filter"/>
+                    <separator/>
+                    <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <separator/>
+                    <filter string="My Activities" name="activities_my"
+                        domain="[('activity_ids.user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Late Activities" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter string="Today Activities" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter name="customer" string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Order Month" domain="[]" context="{'group_by':'date_order'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+      
+        
+
+        <record id="action_orders_sample_order" model="ir.actions.act_window">
+            <field name="name">Sample Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="smart_traiding_inventory.view_sample_order_tree"/>
+            <field name="view_mode">tree,form,calendar,graph,kanban,pivot</field>
+           
+            <field name="domain">[('cus_order_type','=','sample')]</field>
+            <field name="search_view_id" ref="smart_traiding_inventory.view_sample_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Create a Sample Order.
+              </p>
+            </field>
+        </record>
+
+        
+
+        <menuitem id="menu_sale_sample_order_smart"
+            string="Sample Order"
+            action="smart_traiding_inventory.action_orders_sample_order"
+            parent="sale.sale_order_menu"
+            />
+
+        
+<!-- 
+        <menuitem id="menu_sale_sample_order_smart"
+            string="Sample Order"
+            action="smart_traiding_inventory.action_orders_sample_order"
+            parent="sale.menu_sale_order"
+            /> -->
+
+
+        <record id="action_orders_invoiced_after_order" model="ir.actions.act_window">
+            <field name="name">Invoiced Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph,pivot,kanban</field>
+            <field name="context">{'create': False}</field>
+            <field name="domain">[('invoice_status','=','invoiced')]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+            <field name="help" type="html">
+              <p>
+                You will find here all orders that are  invoiced.
+              </p><p>
+               <!--  You can select all orders and invoice them in batch, or check
+                every order and invoice them one by one. -->
+              </p>
+            </field>
+        </record>
+
+        
+
+        <menuitem id="menu_sale_order_after_invoiceds"
+            string="Invoiced Order"
+            action="action_orders_invoiced_after_order"
+            parent="sale.menu_sale_invoicing"
+            />
 </flectra>

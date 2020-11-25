@@ -9,7 +9,7 @@ class CustomProductsField(models.Model):
 
   list_price = fields.Float(string='Minimim Sale Price')
   cus_product_id = fields.Char('Product ID')
-  box_quantity = fields.Float('Quantity Per Box')
+  box_quantity = fields.Float('Quantity Per Box', default=1)
   cus_length = fields.Float('Length', store=True)
   cus_width = fields.Float('Width', store=True)
     

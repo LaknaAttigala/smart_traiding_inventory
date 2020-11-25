@@ -236,7 +236,7 @@
                             </div> -->
                         </t>
                         <div style="border: solid 1px black; margin-top:20px; padding:20px;"> 
-                            <table >
+                            <table style="border:none;" >
                                 <tr>
                                     <td> <strong>Sales Order Date :</strong> </td>
                                     <td style="padding-left:10px;"> <span t-esc="datetime.datetime.strptime(doc.confirmation_date, '%Y-%m-%d %H:%M:%S').strftime('%d %B %Y')"/></td>
@@ -447,16 +447,7 @@
             
             </div>
 
-            <!-- end of order -->
-
-            <!-- <p t-if="doc.payment_term_id.note and doc.state not in ['draft','sent']">
-             
-                <p class="ml-3" t-field="doc.payment_term_id.note"/>
-            </p>
-            <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.note">
-                <strong>Fiscal Position Remark:</strong>
-                <span t-field="doc.fiscal_position_id.note"/>
-            </p> -->
+            
             <div class="oe_structure"/>
         </div>
   </xpath>
