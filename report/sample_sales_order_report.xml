@@ -49,7 +49,7 @@
                         <span t-field="doc.date_order"/>
                     </div>
 
-                    <div name="branch" t-if="doc.branch_id" class="col-xs-3" groups="base_branch_company.group_multi_branch">
+                    <div name="branch" t-if="doc.branch_id" groups="base_branch_company.group_multi_branch">
                         <strong>Branch:</strong>
                         <span t-field="doc.branch_id"/>
                     </div>

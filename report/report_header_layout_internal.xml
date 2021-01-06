@@ -21,10 +21,34 @@
             </div>
         </div>
   </xpath>
+  
 
 
 
 </template>
+<template id="web.basic_layout">
+
+        <t t-call="web.html_container">
+            
+
+            <div class="header">
+                <div style="border-top:2px solid black; margin-top:100mm;">
+                    
+                </div>
+                
+            </div>
+           
+                <div class="article">
+                    <t t-raw="0" />
+                </div>
+        
+            <div class="footer">
+                <div style="border-top:2px solid black; ">
+                    
+                </div>
+            </div>
+        </t>
+    </template>
 
 </data>
 </flectra>

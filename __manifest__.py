@@ -19,11 +19,13 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','purchase','stock','sale_stock','sale','report_xlsx'],
+    'depends': ['base','account','purchase','purchase_requisition','stock','sale_stock','sale','report_xlsx','stock_landed_costs','crm'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/templates.xml',
+        'views/change_menu.xml',
         'views/invoice_form.xml',
         'views/vender_view_form.xml',        
         'views/stock_picking.xml',
@@ -34,14 +36,14 @@
         'views/vender_bill.xml',
         'views/product_view.xml',
         'views/views.xml',
-        'views/templates.xml',
-
+        
+        
         'report/report_header_layout_internal.xml',
         'report/sample_sales_order_report.xml',
         'report/purchase_request_report.xml',
         'report/new_report_menu_purchase.xml',  
         'report/stock_picking_grn_normal.xml',  
-        'report/payslip_report_new.xml',    
+        # # 'report/payslip_report_new.xml',    
 
         'report/report_header_boxed.xml',
         'report/purchase_report.xml',
@@ -50,6 +52,9 @@
         # 'report/sale_picking_aod_details.xml',
         'report/sale_picking_aod_doc.xml',
         'report/invoices_bill_report.xml',
+        'report/purchase_agreement.xml',
+        'report/landed_cost_document.xml',
+        'report/inventory_report.xml',
 
 
     ],

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+
+
+<template id="report_inventorycostmenu">
+    <t t-call="web.html_container">
+      <t t-call="web.internal_layout">
+
+        <style>
+            td,th,tr{
+                border:1px solid black;
+            }
+        </style>
+        <div class="page">
+            <div class="oe_structure"/>
+            <br/>
+            <br/>
+            <h2 class="text-center"><u><strong>Inventory</strong></u></h2>  
+            <br/>    
+            
+            <br/>
+            
+            <div class=" mt32 mb32">
+            
+                <table class="table">
+                  <thead>
+                    <tr style="background-color:#3a3a3a   ;">
+                      <th style="color:white;">Product ID</th>
+                      <th style="color:white;">Product Name</th>
+                      <th style="color:white;">Location</th>
+                      <th style="color:white;">Quantity On Hand</th>
+                      <th style="color:white;">Quantity Reserved</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  t-foreach="docs" t-as="p">
+                      <td><span t-esc="p.product_id.cus_product_id"/></td>
+                      <td><span t-esc="p.product_id.name"/></td>
+                      <td><span t-esc="p.location_id.name" /></td>
+                      <td><span t-esc="p.quantity"/></td>
+                      <td><span t-esc="p.reserved_quantity"/></td>
+                    </tr>
+
+                   
+                  </tbody>
+                </table>
+                <br/>
+                
+            </div>
+          
+            <div class="oe_structure"/>
+            
+        </div>
+      </t>
+      
+    </t>
+</template>
+</flectra>

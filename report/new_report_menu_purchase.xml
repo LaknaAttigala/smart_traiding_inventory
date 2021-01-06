@@ -48,11 +48,38 @@
             <field name="header_spacing">10</field>
             <field name="dpi">100</field>
         </record>
+         <record id="purchase_agreement_a4_format" model="report.paperformat">
+            <field name="name">paperformat A4 Portrait Smart New</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <!-- <field name="page_height">0</field>
+            <field name="page_width">0</field> -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">7</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">100</field>
+        </record>
+
+        <!-- <report 
+            id="account.account_invoices"
+            model="account.invoice"
+            string="Invoices"
+            report_type="qweb-pdf"
+            name="account.report_invoice_with_payments"
+            file="account.report_invoice_with_payments"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+            print_report_name="(object._get_printed_report_name())"
+            groups="account.group_account_invoice"
+        /> -->
 
         <report 
             string="Purchase Request" 
             id="action_report_purchase_request" 
-            model="purchase.order" 
+            model="sprogroup.purchase.request" 
             report_type="qweb-pdf"
             name="smart_traiding_inventory.report_purchasrequest" 
             file="smart_traiding_inventory.report_purchasrequest"
@@ -119,6 +146,78 @@
             file="stock.report_deliveryslip"
             menu="False"
             print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+        />
+        <report 
+            string="Purchase Agreement" 
+            id="action_report_purchase_agreement" 
+            model="purchase.requisition" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.report_purchaseagreements" 
+            file="smart_traiding_inventory.report_purchaseagreements"
+            print_report_name="'Agreement - %s' % (object.name)"
+            paperformat="smart_traiding_inventory.purchase_agreement_a4_format"
+        />
+
+        <report
+            id="export_res_partner_excel"
+            string="Export Excel"
+            model="res.partner"
+            report_type="xlsx"
+            name="smart_traiding_inventory.res_partner_excel_reportss"
+            file="Master Data"
+            attachment_use="False"
+        />
+
+        <report 
+            string="Landed Cost" 
+            id="action_report_landed_cost" 
+            model="stock.landed.cost" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.report_landedcostmenu" 
+            file="smart_traiding_inventory.report_landedcostmenu"
+            print_report_name="'Landed Cost - %s' % (object.name)"
+            paperformat="smart_traiding_inventory.purchase_agreement_a4_format"
+        />
+
+        <report
+            id="export_product_template"
+            string="Export Excel"
+            model="product.template"
+            report_type="xlsx"
+            name="smart_traiding_inventory.product_template_excel_reportss"
+            file="Master Data"            
+            attachment_use="False"
+        />
+
+        <report
+            id="export_product_varient_template"
+            string="Export Excel"
+            model="product.product"
+            report_type="xlsx"
+            name="smart_traiding_inventory.product_varients_excel_reportss"
+            file="Master Data"
+            attachment_use="False"
+        />
+
+        <report
+            id="export_product_package_template"
+            string="Export Excel"
+            model="product.packaging"
+            report_type="xlsx"
+            name="smart_traiding_inventory.product_packages_excel_reportss"
+            file="Master Data"
+            attachment_use="False"
+        />
+
+        <report 
+            string="Inventory PDF" 
+            id="action_report_inventory_report" 
+            model="stock.quant" 
+            report_type="qweb-pdf"
+            name="smart_traiding_inventory.report_inventorycostmenu" 
+            file="smart_traiding_inventory.report_inventorycostmenu"
+            print_report_name="'Inventory Report"
+            paperformat="smart_traiding_inventory.purchase_agreement_a4_format"
         />
         <!-- <report
             string="Delivery Slip"

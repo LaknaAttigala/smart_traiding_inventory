@@ -65,7 +65,7 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="smart_traiding_inventory.view_sample_order_tree"/>
             <field name="view_mode">tree,form,calendar,graph,kanban,pivot</field>
-           
+           <field name="context">{'ord_type':'order'}</field>
             <field name="domain">[('cus_order_type','=','sample')]</field>
             <field name="search_view_id" ref="smart_traiding_inventory.view_sample_order_filter"/>
             <field name="help" type="html">

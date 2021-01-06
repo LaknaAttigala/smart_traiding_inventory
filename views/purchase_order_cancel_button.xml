@@ -6,25 +6,44 @@
     <field name="type">form</field>
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
-      <xpath expr="//button[@name='button_cancel']" position="replace">      
+      <!-- <xpath expr="//button[@name='button_cancel']" position="replace">      
           <button 
           string="Cancel"   
           name="cus_cancel_button"  
-          states="draft,to approve,request purchase,request purchase,sent,purchase" 
+          states="draft,to approve,sent,purchase" 
           type="object" 
                
           />          
+      </xpath> -->
+      <xpath expr="//header" position="replace">
+        <header>
+          <button name="approve_rfq" states="draft" string="Approve" type="object"  class="oe_highlight"/>
+          <button name="action_rfq_send" states="sent" string="Send RFQ by Email" type="object" context="{'send_rfq':True}"/>
+          <!-- <button name="print_quotation" string="Print RFQ" type="object" states="draft" class="oe_highlight" groups="base.group_user"/> -->
+          <button name="print_quotation" string="Print RFQ" type="object" states="sent" groups="base.group_user"/>
+          <!-- <button name="button_confirm" type="object" states="draft" string="Confirm Order" id="draft_confirm"/> -->
+          <button name="button_confirm" type="object" states="sent" string="Confirm Order" class="oe_highlight" id="bid_confirm"/>
+          <button name="button_approve" type="object" states='to approve' string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+          <button name="action_rfq_send" states="purchase" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
+          <button name="action_view_picking" string="Receive Products" class="oe_highlight" type="object" attrs="{'invisible': ['|', '|' , ('is_shipped', '=', True), ('state','not in', ('purchase','done')), ('picking_count', '=', 0)]}"/>
+          <button name="button_draft" states="cancel" string="Set to Draft" type="object" />
+          <button string="Cancel"   name="cus_cancel_button"  states="draft,to approve,sent,purchase" 
+          type="object" /> 
+          <button name="button_done" type="object" string="Lock" states="purchase"/>
+          <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase.group_purchase_manager"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,sent,purchase" readonly="1"/>
+        </header>
       </xpath>
-      <xpath expr="//header" position="inside">
+      <!-- <xpath expr="//header" position="inside">
                 <button name="button_create_rfq" string="Create RFQ" states="accept purchase" class="oe_highlight" type="object"/>
                
                 <button name="button_or_approve" string="Approve" states="request purchase" class="oe_highlight" type="object"/>
                
-      </xpath>
+      </xpath> -->
 
-       <xpath expr="//button[@name='button_confirm']" position="replace">
+       <!-- <xpath expr="//button[@name='button_confirm']" position="replace">
           <button name="cus_button_order_confirm" type="object" states="accept purchase" class="oe_highlight" string="Confirm Order" id="draft_confirm"/>
-      </xpath>
+      </xpath> -->
   
       <xpath expr="//field[@name='date_order']" position="after">      
           <field name="cancel_order_reason" attrs="{'invisible': [('state', 'not in', ['cancel' ])]}" />
@@ -44,7 +63,7 @@
             
       </xpath>
      
-      <xpath expr="//div[@class='oe_title']" position="replace">
+      <!-- <xpath expr="//div[@class='oe_title']" position="replace">
         <div class="oe_title">
           <label string="Request for Quotation " attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>
           <label string="Purchase Request" attrs="{'invisible': [('state','not in',('request purchase','accept purchase'))]}"/>
@@ -56,14 +75,14 @@
       </xpath>
         <xpath expr="//field[@name='state']" position="replace">              
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,request purchase,accept purchase,purchase"/> 
-      </xpath>
+      </xpath> -->
       <!-- 
 -->
 
     </field>
   </record> 
 
-  <record id="purchase_equest_view" model="ir.actions.act_window">
+  <!-- <record id="purchase_equest_view" model="ir.actions.act_window">
             <field name="name">Purchase Request</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.order</field>
@@ -93,7 +112,7 @@
             sequence="1"/>
 
 
-
+-->
   </data>
 </flectra>
 

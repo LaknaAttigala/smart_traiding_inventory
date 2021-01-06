@@ -5,6 +5,22 @@ from datetime import datetime
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    state = fields.Selection([
+        ('new', 'New'),
+        ('draft', 'Quotation'),
+        ('sent', 'Quotation Sent'),
+        ('edited','Edited'),
+        ('sale', 'Sales Order'),
+        ('done', 'Locked'),        
+        ('cancel', 'Cancelled'),
+        ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='new')
+    #add new State
+    partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'new': [('readonly', False)],'draft': [('readonly', False)], 'edited': [('readonly', False)],'sent': [('readonly', False)]}, required=True, change_default=True, index=True, track_visibility='always')
+    partner_invoice_id = fields.Many2one('res.partner', string='Invoice Address', readonly=True, required=True, states={'new': [('readonly', False)],'draft': [('readonly', False)], 'edited': [('readonly', False)],'sent': [('readonly', False)]}, help="Invoice address for current sales order.")
+    partner_shipping_id = fields.Many2one('res.partner', string='Delivery Address', readonly=True, required=True, states={'new': [('readonly', False)],'draft': [('readonly', False)], 'edited': [('readonly', False)], 'sent': [('readonly', False)]}, help="Delivery address for current sales order.")
+    
+    validity_date = fields.Date(string='Expiration Date', readonly=True, copy=False, states={'new': [('readonly', False)],'draft': [('readonly', False)],'edited': [('readonly', False)], 'sent': [('readonly', False)]},
+        help="Manually set the expiration date of your quotation (offer), or it will set the date automatically based on the template if online quotation is installed.")
     cus_order_type= fields.Selection([('sample','Sample Order'),('sales','sale Order')], string='Order Type', default='sales')
 
     carried_by = fields.Char("Carried By")
@@ -16,13 +32,57 @@ class SaleOrder(models.Model):
     cus_tax_condition = fields.Many2one('smart_traiding_inventory.taxcondtions', string='Tax Conditions',  index=True)
     cus_quote_headings = fields.Text(string="Quotation Heading",  index=True)
      
-    cus_approved = fields.Many2one('res.users', string="Approved By", store=True)
+    cus_approved = fields.Many2one('res.users', string="Approved By", store=True, )
     cus_approved_date = fields.Datetime(string="Approved Date")
+    ord_type = fields.Selection([
+            ('quotation','Quotation'),
+            ('order','Order'),
+        ], readonly=True, index=True, change_default=True, default=lambda self: self._context.get('ord_type'),
+        track_visibility='always')
 
 
 
+    # # change create function to default new status
+    # @api.model
+    # def create(self, vals):              
+    #     result = super(SaleOrder, self).create(vals)
+    #     # if result.ord_type=="order":
+    #     result.write({'state':'new'})       
+    #     return result
+
+    #if edit the quotation
+    @api.multi
+    def write (self, vals):
+        if 'state' not in vals.keys() and self.state=="draft" or self.state=="sent":
+            vals['state']= 'edited'
+        res = super(SaleOrder, self).write(vals)
+        print('sssssssssssssssssssssssss   ',vals)
+        return res
+    # @api.model
+    # def write(self, values):
+    #     # vals['edit_state']= 'edit'
+    #     print('sssssssssssssssssssssssss   ',values)
+    #     production = super(SaleOrder, self).write(values)
+    #     print('sssssssssssssssssssssssss   ',values)
+    #     # if 'state' not in values.keys():
+    #     #     production.write({'state':'edited'})
+    #     return production
+
+    #approve button action
+    @api.multi
+    def action_approve(self):
+        # self.ensure_one()
+        if self.state=="new":
+            self.write({'state':'draft','ord_type':'quotation'})
+        elif self.state=="edited":
+            self.write({'state':'draft','ord_type':'quotation'})
 
 
+    @api.onchange("ord_type")
+    def check_context_test(self):
+        if self.ord_type=="order":
+            self.state="new"
+  
     # Raise the warning "Minimum order quantity of the product <Name> is <Quantity Value>."
     # if the order quantity is less than the 'Minimum Order Quantity' of the Product.
     @api.constrains('order_line')

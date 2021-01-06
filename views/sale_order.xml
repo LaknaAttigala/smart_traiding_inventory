@@ -6,13 +6,53 @@
     <field name="model">sale.order</field>
     <field name="type">form</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">       
+    <field name="arch" type="xml"> 
+      <!-- <xpath expr="//button[@name='action_confirm']" position="replace">
+        
+      </xpath>       -->
+      <xpath expr="//header" position="replace">   
+        <header>
+          <button name="action_quotation_send" string="Send by Email" type="object" states="draft" class="btn-primary"/>
+          <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" class="btn-primary" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+          <button name="print_quotation" string="Print" type="object" states="draft" class="btn-primary o_sale_print"/>
+          <button name="action_confirm" id="action_confirm"
+              string="Confirm Sale" class="btn-primary" type="object"
+              attrs="{'invisible': [('state', 'not in', ['draft','sent'])]}"/> <!--If quote in sent stage-->
+              <!--If order in sent new or draft-->
+          <button name="action_confirm"
+              string="Confirm Sale" type="object" class="btn-primary"
+              attrs="{'invisible': ['|',('state', 'not in', ['new']),('ord_type', '=', 'quotation')]}"/>            
 
-      <xpath expr="//field[@name='validity_date']" position="after">        
-        <field name="cus_order_type" /> 
+            <!--If order in sent new or draft-->
+          <button name="action_approve"
+              string="Approve" type="object"
+              attrs="{'invisible': ['|',('ord_type', '!=', 'quotation'),('state', 'not in', ['new','edited'])]}"/>
+
+          <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                    type="action" class="btn-primary"
+                    attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
+          <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                    type="action" context="{'default_advance_payment_method': 'percentage'}"
+                    attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>
+          <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+          <button name="print_quotation" string="Print" type="object" states="sent,sale" class="o_sale_print"/>
+          <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale"/>
+          <button name="action_cancel" states="new,draft,sent,sale" type="object" string="Cancel"/>
+          <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
+          <button name="action_done" type="object" string="Lock" states="sale"
+              help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver."/>
+          <button name="action_unlock" type="object" string="Unlock" states="done" groups="sales_team.group_sale_manager"/>
+          <!-- <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale" attrs="{'invisible':[('ord_type','!=','quotation')]}"/>
+          <field name="state" widget="statusbar" statusbar_visible="new,sale" attrs="{'invisible':[('ord_type','!=','order')]}"/> -->
+          <field name="state" widget="statusbar" statusbar_visible="sale"  />
+        </header>
+
+      </xpath>
+      <xpath expr="//field[@name='validity_date']" position="after"> 
+        <field name="ord_type" invisible="1"  />  
+        <field name="cus_order_type" attrs="{'invisible':[('state','not in',['new','sale']),('ord_type','=','quotation')]}" /> 
         <field name="carried_by" attrs="{'invisible':[('cus_order_type','!=','sample')]}" /> 
-        <field name="Vehicle_no" attrs="{'invisible':[('cus_order_type','!=','sample')]}"/>        
-
+        <field name="Vehicle_no" attrs="{'invisible':[('cus_order_type','!=','sample')]}"/>     
       </xpath>
 
        <xpath expr="//group[@name='sales_person']" position="before">
@@ -24,28 +64,27 @@
         </xpath>
         <xpath expr="//group[@name='technical']" position="after">
           <group string="Others">
-            <field name="cus_quote_headings" />  
+            <field name="cus_quote_headings" attrs="{'invisible': [('ord_type', '=', 'order')]}" />  
             <field name="cus_approved" readonly="1" />  
             <field name="cus_approved_date"  readonly="1" />  
             
           </group>
         </xpath>
-
-
       <xpath expr="//page/field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
         <field name="cus_is_return" attrs="{'invisible': [('parent.cus_order_type', '=', 'sales')]}" />
-      </xpath>
-
-     
+      </xpath>     
     </field>
   </record>
-
+    <!-- order -->
     <record id="sale.action_orders" model="ir.actions.act_window">    
-      <field name="domain">[('state', 'not in', ('draft','sent'))]</field>    
+      <field name="context">{'ord_type':'order'}</field>  
+      <field name="domain">[('state', 'not in', ('cancel','draft','sent')),('cus_order_type', '=','sales')]</field>    
     </record> 
 
-    <record id="sale.action_quotations" model="ir.actions.act_window">    
-        <field name="domain">[('state', 'in', ('draft','sent')),('cus_order_type', '=','sales')]</field>    
+    <!-- #quotation -->
+    <record id="sale.action_quotations" model="ir.actions.act_window">  
+        <field name="context">{'ord_type':'quotation'}</field>  
+        <field name="domain">[('state', 'in', ('new','draft','sent','cancel')),('cus_order_type', '=','sales'),('ord_type', '=','quotation')]</field>    
     </record> 
 
     <record id="smart_order_tree_order_change_custom" model="ir.ui.view">
@@ -53,11 +92,9 @@
       <field name="model">sale.order</field>
       <field name="inherit_id" ref="sale.view_order_tree"/>
       <field name="arch" type="xml">
-       
         <xpath expr="//field[@name='state']" position="replace">     
          <field name="state" />
-        </xpath>      
-
+        </xpath>   
 
       </field>
     </record> 
@@ -96,9 +133,8 @@
                </search>
             </field>
         </record>
+ 
+  </data>
 
     
-
-     
-  </data>
 </flectra> 

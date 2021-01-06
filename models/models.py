@@ -37,3 +37,8 @@ class HrEmployee(models.Model):
         #     record.birthday,
         #   ).years
         record.age = age
+
+class PurchaseRequisitionLine(models.Model):
+    _inherit = "purchase.requisition.line"
+ 
+    description = fields.Char('Description')

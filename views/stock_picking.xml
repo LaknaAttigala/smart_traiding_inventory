@@ -1,6 +1,6 @@
 <flectra>
   <data>
-  <record id="picking_tree_view_newss" model="ir.ui.view">
+  <!-- <record id="picking_tree_view_newss" model="ir.ui.view">
     <field name="name">picking.tree.view.new.tree</field>
     <field name="model">stock.picking</field>
     <field name="inherit_id" ref="stock.vpicktree"/>
@@ -10,7 +10,7 @@
       </xpath> 
 
     </field>
-  </record> 
+  </record>  -->
 
   <record id="sctock_move_count" model="ir.ui.view">
     <field name="name">stock.move.stcok</field>
@@ -71,7 +71,7 @@
             </xpath> -->
              
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="cus_paid" readonly="1"  invisible="0"/>
+                <field name="cus_paid" readonly="1"  invisible="1"/>
                 
             </xpath>
             <xpath expr="//field[@name='origin']" position="after">

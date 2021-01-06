@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+<template id="report_landedcost_document">
+    <t t-call="web.internal_layout">
+        <t t-set="o" t-value="o.with_context(lang=o.create_uid.lang)"/>
+        <style>
+            td,th,tr{
+                border:1px solid black;
+            }
+        </style>
+        <div class="page">
+            <div class="oe_structure"/>
+            <br/>
+            <br/>
+            <h2 class="text-center"><u><strong>LANDED COST - <span t-field="o.name"/></strong></u></h2>  
+            <br/>    
+            <table class="table">
+                <tr>
+                    <td><strong>Date</strong></td>
+                    <td><span t-field="o.date"/></td>
+                    <td><strong>Account Journal</strong></td>
+                    <td><span t-field="o.account_journal_id.name"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Picking</strong></td>
+                    <td>
+                        <t t-foreach="o.picking_ids" t-as="pick">
+                            <span t-field="pick.name"/> <span>  </span>
+                        </t>
+                    </td>
+                    <td><strong>Journal Entry</strong></td>                    
+                    <td><span t-field="o.account_move_id.name"/></td>
+                </tr>
+            </table> 
+            <br/>
+            <h2 class="font-italic"><u><strong>Cost Lines</strong></u></h2> 
+            <br/>
+            <br/>
+            <div class=" mt32 mb32">
+            
+                <table class="table">
+                  <thead>
+                    <tr style="background-color:#3a3a3a   ;">
+                      <th style="color:white;">Product</th>
+                      <th style="color:white;">Description</th>
+                      <th style="color:white;">Account</th>
+                      <th style="color:white;">Split Mathod</th>
+                      <th style="color:white;">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  t-foreach="o.cost_lines" t-as="p">
+                      <td><span t-field="p.product_id.name"/></td>
+                      <td><span t-esc="p.name" /></td>
+                      <td><span t-esc="p.account_id.name"/></td>
+                      <td><span t-esc="p.split_method"/></td>
+                      <td><span t-esc="p.price_unit"/></td>
+                    </tr>
+
+                    <tr>
+                        <td style="border:0;" colspan="3"></td>
+                        <td style="background-color:#3a3a3a; color:white;">Total</td>
+                        <td style="background-color:#3a3a3a; color:white;"><span t-esc="o.amount_total"/></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br/>
+                <br/>
+                <br/>
+                <h2 class="font-italic"><u><strong>Valuation Adjustment</strong></u></h2>
+                <br/>
+                <table class="table">
+                  <thead>
+                    <tr style="background-color:#3a3a3a  ;">
+                      <th style="color:white;">Cost Line</th>
+                      <th style="color:white;">Product</th>
+                      <th style="color:white;">Weight</th>
+                      <th style="color:white;">Volume</th>
+                      <th style="color:white;">Quantity</th>
+                      <th style="color:white;">Former Cost (Per Unit)</th>
+                      <th style="color:white;">Former Cost</th>
+                      <th style="color:white;">Additional Landed Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  t-foreach="o.valuation_adjustment_lines" t-as="p">
+                      <td><span t-field="p.cost_line_id.name"/></td>
+                      <td><span t-esc="p.product_id.name" /></td>
+                      <td><span t-esc="p.weight"/></td>
+                      <td><span t-esc="p.volume"/></td>
+                      <td><span t-esc="p.quantity"/></td>
+                      <td><span t-esc="p.former_cost_per_unit"/></td>
+                      <td><span t-esc="p.former_cost"/></td>
+                      <td><span t-esc="p.additional_landed_cost"/></td>
+                    </tr>
+
+                 
+                  </tbody>
+                </table>
+
+                
+            </div>
+          
+            <div class="oe_structure"/>
+            
+        </div>
+    </t>
+</template>
+
+<template id="report_landedcostmenu">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="smart_traiding_inventory.report_landedcost_document" t-lang="o.create_uid.lang"/>
+        </t>
+    </t>
+</template>
+</flectra>

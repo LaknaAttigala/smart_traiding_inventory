@@ -10,3 +10,4 @@ class CustomerCompanycusnewFields(models.Model):
     vat2= fields.Char("VAT")
     svat = fields.Char("SVAT")
     br_number = fields.Char("BR Number")
+   

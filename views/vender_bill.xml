@@ -10,8 +10,11 @@
       <xpath expr="//field[@name='purchase_id']" position="after">    
       <!-- many2many_checkboxes -->
           <field name="stock_picking_ids" attrs="{'readonly': [('state','not in',['draft'])], 'invisible': ['|', ('state', '=', 'purchase'), ('type', '=', 'in_refund')]}" options="{'no_create': True}" widget='many2many_tags' />   
-          <field name="cusdec_no" />                                              
+          <field name="cusdec_no"/>                                            
       </xpath>  
+      <xpath expr="//field[@name='origin']" position="after">      
+           <field name="grn_numbers" />                                         
+      </xpath>
       <xpath expr="//field[@name='date_due']" position="after">               
           <field name="cus_source" attrs="{ 'invisible': ['|', ('state', '=', 'purchase')]}"  />   
       </xpath>    

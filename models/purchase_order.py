@@ -15,24 +15,30 @@ class CustomerPurchaseFields(models.Model):
   _inherit = "purchase.order"
 
 
-  cus_others = fields.Char("Others")
+  cus_others = fields.Char("Remarks")
   cancel_order_reason = fields.Text(string='Cancel Reason', index=True)
   cus_delivery_to = fields.Char(string='Delivery To', index=True)
+ 
   cus_approved = fields.Many2one('res.users', string="PQ Approved By", readonly=True, store=True)
   cus_approved_date = fields.Datetime(string="PQ Approved Date", readonly=True)
 
 
-  state = fields.Selection(selection=[
-
-    ('request purchase', 'Purchase Request'),
-    ('accept purchase', 'Accepted PQ'),
-    ('draft', 'RFQ'),
+  state = fields.Selection([
+    ('draft', 'New'),
     ('sent', 'RFQ Sent'),
     ('to approve', 'To Approve'),
     ('purchase', 'Purchase Order'),
     ('done', 'Locked'),
-    ('cancel', 'Cancelled')], string='Status', readonly=True, index=True, copy=False, default='request purchase', track_visibility='onchange')
-
+    ('cancel', 'Cancelled')
+    ], string='Status', readonly=True, index=True, copy=False, default='draft', track_visibility='onchange')
+  
+  
+  @api.multi
+  def approve_rfq(self):
+    self.ensure_one()
+    now_date = datetime.now()
+    self.write({'cus_approved_date':now_date, 'cus_approved':self.env.user.id, 'state': 'sent'})
+    return {}
   
   @api.multi
   def cus_cancel_button(self):

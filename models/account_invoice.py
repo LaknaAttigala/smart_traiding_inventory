@@ -19,7 +19,7 @@ class AccountInvoice(models.Model):
   cusdec_no = fields.Char('Cusdec No')
   reference = fields.Char(string='Invoice Number')
   cus_source = fields.Char('Reference')
-  
+  grn_numbers = fields.Char('GRN Numbers')
 
   stock_picking_ids = fields.Many2many(
     comodel_name='stock.picking',
@@ -65,7 +65,16 @@ class AccountInvoice(models.Model):
     #   invoice.message_post(body=message)
     return invoice
 
-
+  # @api.onchange('invoice_line_ids')
+  # def _onchange_origin(self):
+  #   res= super(AccountInvoice, self)._onchange_origin(self)
+  #   grn_ids = self.invoice_line_ids.mapped('stock_picking_ids')
+  #   if grn_ids:
+  #     self.grn_numbers = ', '.join(grn_ids.mapped('name'))
+  #   # purchase_ids = self.invoice_line_ids.mapped('purchase_id')
+  #   # if purchase_ids:
+  #   #   self.origin = ', '.join(purchase_ids.mapped('name'))
+  #   return res
 
 
   @api.multi
@@ -83,7 +92,11 @@ class AccountInvoice(models.Model):
   def _prepare_invoice_line_from_po_line(self, line,stock_noss,purchase_id):
      
     tax_detail = self.env['purchase.order.line'].search([('product_id','=',purchase_id.id)])
-    taxes = tax_detail.taxes_id
+    if tax_detail:
+      for s in tax_detail:
+        taxes = s.taxes_id
+    else:
+      taxes =""
     invoice_line_tax_ids = purchase_id.fiscal_position_id.map_tax(taxes)
     invoice_line = self.env['account.invoice.line']
     purchase_order = self.env['purchase.order.line'].search([('product_id','=',line.product_id.id),('order_id','=',self.purchase_id.id)])
@@ -139,8 +152,10 @@ class AccountInvoice(models.Model):
       new_line = new_lines.new(data)
       new_line._set_additional_fields(self)
       new_lines += new_line
-      
-    
+    if self.grn_numbers:
+      self.grn_numbers = self.grn_numbers+","+ self.stock_picking_ids.name
+    else:
+      self.grn_numbers = self.stock_picking_ids.name
     self.invoice_line_ids += new_lines
     self.payment_term_id = self.purchase_id.payment_term_id
     self.env.context = dict(self.env.context, from_purchase_order_change=True)

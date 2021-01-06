@@ -65,7 +65,7 @@ class StockMove(models.Model):
   @api.onchange('quantity_done')
   def _generate_Package_count(self):
     if self.quantity_done != 0 and self.quantity_done !=0.00:
-      pack_count = self.quantity_done / self.product_id.box_quantity
+      pack_count = self.quantity_done/self.product_id.box_quantity
       pack_count = round(pack_count)
       self.cus_package_count=pack_count
 
@@ -78,9 +78,10 @@ class StockMoveLine(models.Model):
   def _generate_Package_count(self):
     for r in self:
       if r.qty_done != 0 and r.qty_done !=0.00:
-        pack_count = r.qty_done / r.product_id.box_quantity
-        pack_count = round(pack_count)
-        r.cus_package_count=pack_count
+        if r.product_id.box_quantity !=0.00:
+          pack_count = r.qty_done/r.product_id.box_quantity
+          pack_count = round(pack_count)
+          r.cus_package_count=pack_count
     # for pack in self:
     #   if pack.product_id.box_quantity != 0.00 and pack.quantity_done !=0.00 :
     #     pack_count = pack.quantity_done / pack.product_id.box_quantity

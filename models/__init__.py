@@ -8,3 +8,4 @@ from . import purchase_order
 from . import product
 from . import sale_order
 from . import res_company
+from . import export_excel

@@ -5,7 +5,55 @@
   <xpath expr="//div[@class='page']" position="replace">
     <div class="page" style="font-size:15px; font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;">     
       <div class="row" t-if="o.type == 'in_invoice'" > 
-          <div class="row"   >
+          <h2 class="text-center text-uppercase" ><strong><u>          
+            <span t-if="o.type == 'in_invoice'">Vendor Bill</span>          
+            </u></strong>
+          </h2>
+            <style>
+              .td_width{
+                width:25%;
+                background:transparent; 
+                border-bottom: 1px solid black;
+              }
+            </style>
+            <table class="table">
+              <tr>
+                <td class="td_width"><strong>Vendor Name</strong></td>
+                <td class="td_width" style="background:transparent; " colspan="3"><span t-field="o.partner_id"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>Invoice Number</strong></td>
+                <td class="td_width"><span t-field="o.number"/></td>
+                <td class="td_width"><strong>Cusdec Number</strong></td>
+                <td class="td_width" style="background:transparent; " ><span t-field="o.cusdec_no"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>PO Number</strong></td>
+                <td class="td_width" style="background:transparent; " colspan="3"><span t-field="o.origin"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>GRN Number</strong></td>
+                <td class="td_width" style="background:transparent; " colspan="3"><span t-field="o.grn_numbers"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>Bill Date</strong></td>
+                <td class="td_width"><span t-field="o.date_invoice"/></td>
+                <td class="td_width"><strong>Due Date </strong></td>
+                <td class="td_width" style="background:transparent; " ><span t-field="o.date_due"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>Reference</strong></td>
+                <td class="td_width" style="background:transparent; " colspan="3"><span t-field="o.cus_source"/></td>
+              </tr>
+              <tr>
+                <td class="td_width"><strong>Payment Terms</strong></td>
+                <td class="td_width" style="background:transparent; " colspan="3"><span t-field="o.payment_term_id.name"/></td>
+              </tr>
+            </table>
+
+
+          <!-- enddddddddddddddddddddddd -->
+          <!-- <div class="row"   >
             <div name="invoice_address" class="col-xs-6">
               <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
               <div t-if="o.partner_id.vat" class="mt16">
@@ -20,7 +68,7 @@
 
           <h2 class="text-center text-uppercase" ><strong><u>          
             <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
-            <!-- <span t-field="o.number"/> -->
+           
             </u></strong>
           </h2>
 
@@ -57,18 +105,19 @@
               <strong>Branch:</strong>
               <p t-field="o.branch_id.name"/>
             </div>
-          </div>
+          </div> -->
 
                     <!-- Is there a discount on at least one line? -->
           <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
-            <table class="table table-condensed" name="invoice_line_table">
+            <table class="table table-condensed mt-4" name="invoice_line_table">
               <thead>
                 <tr>
                   <th>Product Code</th>
+                  <th>Product Name</th>
                   <th>Description</th>
-                  <th>GRN No(s)</th>
-                  <th>Order No</th>
+                  <!-- <th>GRN No(s)</th>
+                  <th>Order No</th> -->
                   <th class="text-right">Quantity</th>
                   <th class="text-right">Unit Price</th>
                   <th t-if="display_discount" class="text-right">Disc.(%)</th>
@@ -79,23 +128,24 @@
               <tbody class="invoice_tbody">
                 <tr t-foreach="o.invoice_line_ids" t-as="l">
                   <td><span t-field="l.product_id.cus_product_id"/></td>
+                  <td><span t-field="l.product_id.name"/></td>
                   <td><span t-field="l.name"/></td>
-                  <td><span t-field="l.grn_id"/></td>
-                  <td><span t-field="l.grn_id.origin"/></td>
+                  <!-- <td><span t-field="l.grn_id"/></td>
+                  <td><span t-field="l.grn_id"/></td> -->
                   <td class="text-right">
                     <span t-field="l.quantity"/>
                     <span t-field="l.uom_id" groups="product.group_uom"/>
                   </td>
                   <td class="text-right">
-                    <span t-field="l.price_unit"/>
+                    <span t-field="l.price_unit" style="background:transparent;" />
                   </td>
-                  <td t-if="display_discount" class="text-right">
+                  <td t-if="display_discount" class="text-right" style="background:transparent; ">
                     <span t-field="l.discount"/>
                   </td>
-                  <td class="text-right">
+                  <td class="text-right" style="background:transparent; ">
                     <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.invoice_line_tax_ids))"/>
                   </td>
-                  <td class="text-right" id="subtotal">
+                  <td class="text-right" style="background:transparent; " id="subtotal">
                     <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
                   </td>
                 </tr>
@@ -155,9 +205,9 @@
             <p t-if="o.comment">
               <span t-field="o.comment"/>
             </p>
-            <p t-if="o.payment_term_id">
+            <!-- <p t-if="o.payment_term_id">
               <span t-field="o.payment_term_id.note"/>
-            </p>
+            </p> -->
             <p t-if="o.fiscal_position_id.note">
               <span t-field="o.fiscal_position_id.note"/>
             </p>

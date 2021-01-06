@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+
+<template id="report_purchaseagreements_document">
+            <t t-call="web.basic_layout">
+                
+                <div class="page" style="font-size:18px; border-left:2px solid black; border-right:2px solid black; padding: 0 40px 0 40px; ">
+                    <!-- <div class="oe_structure" />
+                 -->
+                 <br/>
+                    <u><h1 style="font-size:40px; color: #4169e1; " class="text-center text-uppercase mt-3" t-field="o.company_id.name" /> </u>
+                    <div>
+                      <p style="font-size:13px" class="text-center">
+                        <span t-field="o.company_id.street"></span> <span t-field="o.company_id.street2"></span>
+                        <span t-field="o.company_id.city"></span>
+                        <span t-field="o.company_id.state_id"></span>
+                        <span t-field="o.company_id.zip"></span>
+                        <span t-field="o.company_id.country_id"></span><br/>
+                        <span t-if="o.company_id.h_phone">Tel: <span t-field="o.company_id.h_phone"/></span><br/>
+                        <span t-if="o.company_id.email">Email: <span t-field="o.company_id.email"/></span> | <span t-if="o.company_id.website">Website: <span t-field="o.company_id.website"/></span><br/>
+                        <span t-if="o.company_id.vat2"> VAT: <span t-field="o.company_id.vat2" /></span><span t-if="o.company_id.svat">| SVAT:<span t-field="o.company_id.svat"></span> </span> <br/>
+
+                        </p>
+                    </div>
+                    <br/>
+                    <br/>
+                    <h2 class="text-center text-uppercase"><u>Purchase Agreement </u></h2>
+                                                 <!-- <span t-field="o.name"/> -->
+                    <br/>
+                    <strong style="font-size:18px; ">PARTIES</strong>
+                    <br/>
+                    <P class="text-justify" style="font-size:18px; ">
+                        This Deed of Agreement withholding the reference number <span t-field="o.name"/> dated on <span t-field="o.create_date"/> is made by and between Smart Trading Asia (Pvt) Ltd,
+with registered office at Lot No.03, IDB Industrial Estate, Maithree Mawatha, Ekala
+(“Purchaser”), and <span t-field="o.vendor_id.name"/> (“Supplier”) with registered
+office at <span t-field="o.vendor_id.street"/> <span t-field="o.vendor_id.street"/> <span t-field="o.vendor_id.city"/><span t-field="o.vendor_id.zip"/><span t-field="o.vendor_id.country_id.name"/>.
+                    </P>
+                    <br/>
+                    <p>
+                        IN CONSIDERATION of the mutual promises and covenants in this Contract, the Parties agree
+to the Terms and Conditions as set forth below.
+                    </p>
+                    <br/>
+                    <p><u><strong>TERMS AND CONDITIONS</strong></u></p>
+                    <br/>
+                    <p> <strong><o><li>TERM</li></o></strong></p>
+                    <br/>
+                    <p>The undersigned parties agree that the terms of this Agreement is valid from <span t-field="o.create_date"/>
+to <span t-field="o.date_end"/>, unless any or both of the Parties mutually agree to terminate this
+Agreement before the expiration of said period.</p>
+                    <p>
+                    <br/>
+                    <strong><o><li>(ADD THE TERMS AND CONDITIONS FIELD THAT ARE CREATED IN THE
+ERP SYSTEM HERE.)</li></o></strong>
+                    </p>
+                    <br/>
+                    <p>
+                        <strong><o><li>GOODS/SERVICES SUPPLIED </li></o></strong><br/>
+                        <br/>
+                        The supplier agrees to supply the Goods in strict accordance with the specifications and at the
+price stated for each item outlined below:
+                    </p>
+                    <br/>
+                    <br/>
+                    <table class="table table-borderd">
+                        <thead>
+                            <tr>
+                                <th style="width:15%; background-color: #cfcecd; color:black; border:1px solid black; text-align:center;">Product ID</th>
+                                <th style="width:15%; background-color: #cfcecd; color:black; border:1px solid black; text-align:center;">Product</th>
+                                <th style="width:40%; background-color: #cfcecd; color:black; border:1px solid black; text-align:center;">Description</th>
+                                <th style="width:15%; background-color: #cfcecd; color:black; border:1px solid black; text-align:center;">Quantity</th>
+                                <th style="width:15%; background-color: #cfcecd; color:black; border:1px solid black; text-align:center;">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.line_ids" t-as="line_ids">
+                                <td class="text-left" style=" border:1px solid black;">
+                                    <span t-field="line_ids.product_id.cus_product_id"/>
+                                </td>
+                                <td class="text-center" style=" border:1px solid black;">
+                                    <span t-field="line_ids.product_id.name"/>
+                                </td>
+                                <td style=" border:1px solid black;">
+                                    <!-- [ <span t-field="line_ids.product_id.code"/> ] -->
+                                    <span t-field="line_ids.description"/>
+                                </td>
+                                <td class="text-right" style=" border:1px solid black;">
+                                    <span t-field="line_ids.product_qty"/>
+                                    <span t-field="line_ids.product_uom_id.category_id.name"/>
+                                </td>
+                                <!-- <t>
+                                    <td class="text-center" groups="product.group_uom">
+                                        <span t-field="line_ids.product_uom_id.category_id.name"/>
+                                    </td>
+                                </t> -->
+                                <td class="text-right" style=" border:1px solid black;">
+                                    <span t-field="line_ids.price_unit"/>
+                                </td>
+                                <!-- <td class="text-right">
+                                    <span t-field="line_ids.schedule_date"/>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <br/>
+                    <p>
+                        <strong><o><li>QUANTITY AND QUALITY </li></o></strong><br/>
+                        <br/>
+                        The Purchaser is entitled to reject or refuse to accept any products or materials which are
+delivered by the Supplier that do not suffice the quality standards.
+                    </p>
+                    <br/>
+                    <p>
+                        <strong><o><li>TERMS OF DELIVERY </li></o></strong><br/>
+                        <br/>
+                        The Supplier is mandated and obliged under the terms and conditions of this Agreement to
+exercise due diligence in the course of transporting and delivering the said material and
+products. The said materials and products must be in good condition when it reaches the
+purchaser.
+                    </p>
+                    <br/>
+                    <p>
+                        <strong><o><li>FAILURE TO COMPLY </li></o></strong><br/>
+                        <br/>
+                        In the event that the undersigned Supplier fails to comply with its duties and obligations to the
+Purchaser, the latter is entitled to rescind the operation of this Contract. This is without
+prejudice to the right of the Purchaser to seek other applicable legal remedies provided under
+the law.
+                    </p>
+                    <br/>
+                    <p>
+                        <strong><o><li>INDEMNIFICATION </li></o></strong><br/>
+                        <br/>
+                        Subject to the terms and conditions of this Agreement, the Supplier is bound to indemnify the
+Purchaser for any damages that the latter may incur due to the fault and negligence of the
+former.
+                    </p>
+                    <br/>
+                    <p>
+                        <strong><o><li>ENTIRE CONTRACT </li></o></strong><br/>
+                        <br/>
+                        This Contract constitutes the entire and final agreement between the Purchaser and the Supplier
+and supersedes any other prior agreements or Contracts.
+                    </p>
+                    
+                    <br/>
+                   
+                    <div class="col-xs-6">
+                        <p><strong>SUPPLIER</strong></p>
+                        <br/>
+                        <br/>
+                        ..................................<br/>
+                        Signature<br/>
+                        <br/>
+
+                        ..................................<br/>
+                        Signature Holder's Name<br/>
+                        <br/>
+
+                        ..................................<br/>
+                        Date Signed
+                    
+                    </div>
+                    <div class="col-xs-6">
+                        <p><strong>PURCHASER</strong></p>
+                        <br/>
+                        <br/>
+                        ..................................<br/>
+                        Signature<br/>
+                        <br/>
+
+                        ..................................<br/>
+                        Signature Holder's Name<br/>
+                        <br/>
+
+                        ..................................<br/>
+                        Date Signed
+                    
+                    </div>
+                    <p style=""></p>
+                    <!-- <div class="col-xs-12" style="position:absolute; bottom:-1800px;">
+                    -
+                    </div> -->
+
+
+                    <div class="oe_structure"/>
+                </div>
+              
+            </t>
+
+</template>
+<template id="report_purchaseagreements">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="smart_traiding_inventory.report_purchaseagreements_document" t-lang="o.user_id.lang"/>
+        </t>
+    </t>
+</template>
+</flectra>

@@ -11,5 +11,17 @@
                 </field>
             </field>
         </record>
+
+        <record id="purchase_reqosition_new_fiedl" model="ir.ui.view">
+            <field name="name">purchase.reqosition.new.fiedl</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="description"/>
+                </xpath>
+                
+            </field>
+        </record>
     </data>
 </flectra>
