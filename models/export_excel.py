@@ -225,4 +225,120 @@ class productPackageTemplateXLS(models.AbstractModel):
         data_row +=1
         
         
+class stockValuationsDetailsXLS(models.AbstractModel):
+  _name = 'report.smart_traiding_inventory.export_stock_valuation_excelv'
+  _inherit = 'report.report_xlsx.abstract'
+
+  def generate_xlsx_report(self, workbook, data, lines):
+  
+    top_header = workbook.add_format({'font_size': 12, 'align': 'center', 'bg_color':'#1ad9d6' ,'bold': True, 'border':2})
+    format2 = workbook.add_format({'font_size': 10, 'align': 'vcenter','border' : 1 })
+    tabel_header = workbook.add_format({'font_size': 11 ,'bg_color':'#1ad9d6' ,'align': 'vcenter', 'bold': True,'border':1})
+    sheet = workbook.add_worksheet('Inventory')
+   
     
+  
+    sheet.merge_range('D2:L3','Inventory',top_header) #Total Allowance 
+        # sheet.right_to_left()
+
+    sheet.merge_range('B5:C6','Product ID',tabel_header) #Total Allowance 
+    sheet.merge_range('D5:E6','Product Name',tabel_header) #Total Allowance 
+    sheet.merge_range('F5:G6','Qunatity \n on Hand',tabel_header) #Total Allowance 
+    sheet.merge_range('H5:I6','Forecast \n Quantity',tabel_header) #Total Allowance 
+
+    data_row = 7
+    row_no =1
+    for pick in lines:
+        sheet.merge_range('B%d:C%d'  %(data_row,data_row),pick.cus_product_id,format2)
+        sheet.merge_range('D%d:E%d'  %(data_row,data_row),pick.name,format2)
+        sheet.merge_range('F%d:G%d'  %(data_row,data_row),pick.qty_available,format2)
+        sheet.merge_range('H%d:I%d'  %(data_row,data_row),pick.virtual_available,format2)
+        
+        data_row +=1
+
+      
+class stockValuaDetailsXLS(models.AbstractModel):
+  _name = 'report.smart_traiding_inventory.export_stock_valu_excelv'
+  _inherit = 'report.report_xlsx.abstract'
+
+  def generate_xlsx_report(self, workbook, data, lines):
+  
+    top_header = workbook.add_format({'font_size': 12, 'align': 'center', 'bg_color':'#1ad9d6' ,'bold': True, 'border':2})
+    format2 = workbook.add_format({'font_size': 10, 'align': 'vcenter','border' : 1 })
+    tabel_header = workbook.add_format({'font_size': 10 ,'bg_color':'#1ad9d6' ,'align': 'vcenter', 'bold': True,'border':1})
+    sheet = workbook.add_worksheet('Inventory')
+   
+    
+  
+    sheet.merge_range('D2:L3','Inventory',top_header) #Total Allowance 
+        # sheet.right_to_left()
+
+    sheet.merge_range('B5:C6','Product ID',tabel_header) #Total Allowance 
+    sheet.merge_range('D5:E6','Product Name',tabel_header) #Total Allowance 
+    sheet.merge_range('F5:G6','Quantity',tabel_header) #Total Allowance 
+    sheet.merge_range('H5:I6','Unit of Measures',tabel_header) #Total Allowance 
+    sheet.merge_range('J5:K6','Unit Price',tabel_header) #Total Allowance 
+    sheet.merge_range('L5:M6','Value',tabel_header) #Total Allowance 
+
+  
+
+    data_row = 7
+    row_no =1
+    for pick in lines:
+        sheet.merge_range('B%d:C%d'  %(data_row,data_row),pick.cus_product_id,format2)
+        sheet.merge_range('D%d:E%d'  %(data_row,data_row),pick.name,format2)
+        sheet.merge_range('F%d:G%d'  %(data_row,data_row),pick.qty_at_date,format2)
+        sheet.merge_range('H%d:I%d'  %(data_row,data_row),pick.uom_id.name,format2)
+        sheet.merge_range('J%d:K%d'  %(data_row,data_row),pick.lst_price,format2)
+        
+        sheet.merge_range('L%d:M%d'  %(data_row,data_row),pick.stock_value,format2)
+        
+        data_row +=1
+
+class stockOpersDetailsXLS(models.AbstractModel):
+  _name = 'report.smart_traiding_inventory.export_stock_oper_excelv'
+  _inherit = 'report.report_xlsx.abstract'
+
+  def generate_xlsx_report(self, workbook, data, lines):
+  
+    top_header = workbook.add_format({'font_size': 12, 'align': 'center', 'bg_color':'#1ad9d6' ,'bold': True, 'border':2})
+    format2 = workbook.add_format({'font_size': 10, 'align': 'vcenter','border' : 1 })
+    tabel_header = workbook.add_format({'font_size': 10 ,'bg_color':'#1ad9d6' ,'align': 'vcenter', 'bold': True,'border':1})
+    sheet = workbook.add_worksheet('Inventory')
+   
+    
+  
+    sheet.merge_range('D2:L3','Stock Operations',top_header) #Total Allowance 
+        # sheet.right_to_left()
+
+    sheet.merge_range('B5:C6','Reference',tabel_header) #Total Allowance 
+    sheet.merge_range('D5:E6','Destination Loaction',tabel_header) #Total Allowance 
+    sheet.merge_range('F5:G6','Vendor',tabel_header) #Total Allowance 
+    sheet.merge_range('H5:I6','Schedule Date',tabel_header) #Total Allowance 
+    sheet.merge_range('J5:K6','PO Number',tabel_header) #Total Allowance 
+    sheet.merge_range('L5:M6','Product List',tabel_header) #Total Allowance 
+    sheet.merge_range('N5:O6','Created By',tabel_header) #Total Allowance 
+    sheet.merge_range('P5:Q6','Status',tabel_header) #Total Allowance 
+
+  
+
+    data_row = 7
+    row_no =1
+    for pick in lines:
+        sheet.merge_range('B%d:C%d'  %(data_row,data_row),pick.name,format2)
+        sheet.merge_range('D%d:E%d'  %(data_row,data_row),pick.location_dest_id.name,format2)
+        sheet.merge_range('F%d:G%d'  %(data_row,data_row),pick.partner_id.name,format2)
+        sheet.merge_range('H%d:I%d'  %(data_row,data_row),pick.scheduled_date,format2)
+        sheet.merge_range('J%d:K%d'  %(data_row,data_row),pick.origin,format2)
+        prod=""
+        if pick.move_lines:
+                for pro in pick.move_lines:
+                    if prod =="":
+                        prod = pro.product_id.name
+                    else:
+                        prod = prod +" , "+pro.product_id.name
+        sheet.merge_range('L%d:M%d'  %(data_row,data_row),prod,format2)
+        sheet.merge_range('N%d:O%d'  %(data_row,data_row),pick.create_uid.name,format2)
+        sheet.merge_range('P%d:Q%d'  %(data_row,data_row),pick.state,format2)
+        
+        data_row +=1

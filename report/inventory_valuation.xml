@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flectra>
+
+
+    <template id="inventory_valuation">
+        <t t-call="web.internal_layout">
+        <t t-call="web.html_container">
+               <br></br>
+               <br></br>
+               <br></br>
+               <br></br>
+               <div class="col-xs-12 mb92">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-2 danger"> Product ID </th>
+                                <th class="col-xs-2 danger"> Product Name </th>
+                                <th class="col-xs-2 danger"> Quantity </th>
+                                <th class="col-xs-2 danger"> Unit of Measures </th>
+                                <th class="col-xs-2 danger"> Unit Price </th>
+                                <th class="col-xs-2 danger"> Value </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <t t-foreach="docs" t-as="o">
+                            <tr>
+                                <td><strong t-field="o.cus_product_id"/></td>
+                                <td><strong t-field="o.display_name"/></td>
+                                <td><strong t-field="o.qty_availble"/></td>
+                                <td><strong t-field="o.uom_id"/></td>
+                                <td><strong t-field="o.lst_price"/></td>
+                                <td><strong t-field="o.stock_value"/></td>
+                            </tr>
+                        </t>
+                        
+                        </tbody>
+                    </table>
+                        
+
+                </div>
+            
+        </t>
+        </t>
+    </template>
+
+</flectra>

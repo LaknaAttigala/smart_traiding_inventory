@@ -216,8 +216,46 @@
             report_type="qweb-pdf"
             name="smart_traiding_inventory.report_inventorycostmenu" 
             file="smart_traiding_inventory.report_inventorycostmenu"
-            print_report_name="'Inventory Report"
+            print_report_name="'Inventory Report'"
             paperformat="smart_traiding_inventory.purchase_agreement_a4_format"
+        />
+
+        <report
+            id="report_smart" 
+            model="product.product"
+            string="Inventory Valuation"
+            name="smart_traiding_inventory.inventory_valuation"
+            file="smart_traiding_inventory.inventory_valuation"
+            report_type="qweb-pdf"
+            paperformat="smart_traiding_inventory.purchase_agreement_a4_format"
+        />
+
+        <report
+            id="export_stock_valu_excel"
+            string="Inventory Excel"
+            model="product.product"
+            report_type="xlsx"
+            name="smart_traiding_inventory.export_stock_valuation_excelv"
+            file="Picking Summary"
+            attachment_use="False"
+        />
+        <report
+            id="export_stockaluation_excel"
+            string="Inventory Valuation Excel"
+            model="product.product"
+            report_type="xlsx"
+            name="smart_traiding_inventory.export_stock_valu_excelv"
+            file="Inventory Valuation"
+            attachment_use="False"
+        />
+        <report
+            id="stock_operation_excel"
+            string="Stock Operations"
+            model="stock.picking"
+            report_type="xlsx"
+            name="smart_traiding_inventory.export_stock_oper_excelv"
+            file="stock operation"
+            attachment_use="False"
         />
         <!-- <report
             string="Delivery Slip"

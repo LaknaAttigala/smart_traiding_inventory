@@ -19,7 +19,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','purchase','purchase_requisition','stock','sale_stock','sale','report_xlsx','stock_landed_costs','crm'],
+    'depends': ['base','account','purchase','purchase_requisition','stock','stock_account','sale_stock','sale','report_xlsx','stock_landed_costs','crm'],
 
     # always loaded
     'data': [
@@ -55,6 +55,7 @@
         'report/purchase_agreement.xml',
         'report/landed_cost_document.xml',
         'report/inventory_report.xml',
+        'report/inventory_valuation.xml',
 
 
     ],
